@@ -50,12 +50,14 @@ Next version 0.2:
 
 1. add command `gotodo add`
 2. add command `gotodo done`
-3. add command `gotodo do`
-3. show list like this:
-    
-    2   [Future]:    three 
-    1   [Doing ]:    two
-    0   [Done  ]:    one
+3. add command `gotodo list`
+4. add command `gotodo undone`
+5. add command `gotodo clean`
+6. show list like this:
+
+    [Future] 001:   one
+    [Doing ] 002:   two
+    [Done  ] 003:   three
     
 
 License:
