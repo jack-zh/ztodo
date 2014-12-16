@@ -48,11 +48,11 @@ Usage:
 
 Next version 0.2:
 
-1. add command `gotodo add`
-2. add command `gotodo done`
-3. add command `gotodo list`
-4. add command `gotodo undone`
-5. add command `gotodo clean`
+1. add command "gotodo add"     add a task
+2. add command "gotodo done"    mark a task done
+3. add command "gotodo list"    replace ls
+4. add command "gotodo undone"  mark a task undone if it done
+5. add command "gotodo clean"   rm all done task
 6. show list like this:
 
     [Future] 001:   one
