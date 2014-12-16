@@ -16,8 +16,8 @@ import (
 var noAct = errors.New("didn't act")
 
 var (
-	file = flag.String("file", defaultFile(".todo", "TODO"), "file in which to store tasks")
-	log  = flag.String("log", defaultFile(".todo-log", "TODOLOG"), "file in which to log removed tasks")
+	file = flag.String("file", defaultFile(".zgotodo", "TODO"), "file in which to store tasks")
+	log  = flag.String("log", defaultFile(".zgotodo-log", "TODOLOG"), "file in which to log removed tasks")
 	now  = flag.Bool("now", false, "when adding, insert at head")
 	done = flag.Bool("done", false, "don't actually add; just append to log file")
 )
@@ -30,15 +30,15 @@ func defaultFile(name, env string) string {
 }
 
 const usage = `Usage:
-	todo
+	gotodo
 		Show top task
-	todo ls
+	gotodo list
 		Show all tasks
-	todo N
+	gotodo N
 		Promote task N to top
-	todo rm
+	gotodo rm
 		Remove top task
-	todo rm N
+	gotodo rm N
 		Remove task N
 Flags:
 `
@@ -55,8 +55,7 @@ func main() {
 
 	err := noAct
 	switch {
-	case a == "ls" && n == 1:
-		// list tasks
+	case a == "list" && n == 1:
 		var tasks []string
 		tasks, err = list.Get()
 		for i := len(tasks) - 1; i >= 0; i-- {
