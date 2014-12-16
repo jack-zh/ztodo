@@ -8,7 +8,7 @@ Installation:
     http://golang.org/doc/install.html
 
 2. Install todo:
-    $ go install github.com/jack-zh/gotodo
+    $ go get github.com/jack-zh/gotodo
 
 Usage:
 
