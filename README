@@ -15,21 +15,21 @@ Usage:
 1. Add a task to the list:
 
 
-    $ todo one
-    $ todo two
+    $ gotodo one
+    $ gotodo two
 
 
 2. List first tasks:
 
 
-    $ todo
+    $ gotodo
      one
 
 
 3. List outstanding tasks:
 
 
-    $ todo ls
+    $ gotodo ls
       1: two
       0: one
 
@@ -37,20 +37,20 @@ Usage:
 4. Remove the first task from the list:
 
 
-    $ todo rm
+    $ gotodo rm
 
 
 5. Remove a first task from the list:
 
 
-    $ todo rm 0
+    $ gotodo rm 0
 
 
 Next version 0.2:
 
-1. add command `todo add`
-2. add command `todo done`
-3. add command `todo do`
+1. add command `gotodo add`
+2. add command `gotodo done`
+3. add command `gotodo do`
 3. show list like this:
     
     2   [Future]:    three 
@@ -58,4 +58,7 @@ Next version 0.2:
     0   [Done  ]:    one
     
 
+License:
+    
+    MIT
 
