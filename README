@@ -46,7 +46,7 @@ Usage:
 	$ todo rm 0
 
 
-Next version:
+Next version 0.2:
 
 1. add command `todo add`
 2. add command `todo done`
