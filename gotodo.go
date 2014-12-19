@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-var noAct = errors.New("didn't act")
+var noAct = errors.New("error")
 
 var (
 	file = flag.String("file", defaultFile(".zgotodo", "TODO"), "file in which to store tasks")
