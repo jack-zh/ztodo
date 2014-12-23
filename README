@@ -1,4 +1,4 @@
-gotodo
+gotodo version 0.2
 
 A simple command-line todo list written in Go.
 
@@ -12,52 +12,26 @@ Installation:
 
 Usage:
 
-1. Add a task to the list:
+    gotodo list
+        Show all tasks
+    gotodo list N
+        Show task N
+    gotodo rm N
+        Remove task N
+    gotodo done N
+        Done task N
+    gotodo undo N
+        Undo task N
+    gotodo doing N
+        Doing task N
+    gotodo add ...
+        Add task to list
 
 
-    $ gotodo one
-    $ gotodo two
+Next version 0.3:
 
-
-2. List first tasks:
-
-
-    $ gotodo
-     one
-
-
-3. List outstanding tasks:
-
-
-    $ gotodo ls
-      1: two
-      0: one
-
-
-4. Remove the first task from the list:
-
-
-    $ gotodo rm
-
-
-5. Remove a first task from the list:
-
-
-    $ gotodo rm 0
-
-
-Next version 0.2:
-
-1. add command "gotodo add"     add a task
-2. add command "gotodo done"    mark a task done
-3. add command "gotodo list"    replace ls
-4. add command "gotodo undone"  mark a task undone if it done
-5. add command "gotodo clean"   rm all done task
-6. show list like this:
-
-    [Future] 001:   one
-    [Doing ] 002:   two
-    [Done  ] 003:   three
+1. update time
+2. json file and data
     
 
 License:

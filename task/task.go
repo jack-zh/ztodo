@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
+	"time"
 )
 
 type List struct {
@@ -16,7 +18,43 @@ func NewList(filename string) *List {
 	return &List{filename}
 }
 
+func (l *List) updateTask(n int, upstr string) error {
+	tasks, err := l.Get()
+	if err != nil {
+		return err
+	}
+	if n >= len(tasks) || n < 0 {
+		return errors.New("index out of range")
+	}
+	f, err := os.Create(l.filename)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	for i, t := range tasks {
+		if i == n {
+			if strings.HasPrefix(t, "1") {
+				t = strings.Replace(t, "1", upstr, 1)
+			}
+			if strings.HasPrefix(t, "2") {
+				t = strings.Replace(t, "2", upstr, 1)
+			}
+			if strings.HasPrefix(t, "0") {
+				t = strings.Replace(t, "0", upstr, 1)
+			}
+			_, err = fmt.Fprintln(f, t)
+		} else {
+			_, err = fmt.Fprintln(f, t)
+		}
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (l *List) AddTask(s string, top bool) error {
+	s = strings.Join([]string{"0", time.Now().Format("[2006-01-02 15:04:05]"), s}, " ")
 	var flags = os.O_WRONLY | os.O_CREATE | os.O_APPEND
 	var tasks []string
 	if top {
@@ -49,6 +87,9 @@ func (l *List) AddTask(s string, top bool) error {
 
 func (l *List) RemoveTask(n int) error {
 	tasks, err := l.Get()
+	if n >= len(tasks) || n < 0 {
+		return errors.New("index out of range")
+	}
 	if err != nil {
 		return err
 	}
@@ -101,4 +142,16 @@ func (l *List) Get() ([]string, error) {
 		tasks = append(tasks, string(t))
 	}
 	return tasks, nil
+}
+
+func (l *List) DoneTask(n int) error {
+	return l.updateTask(n, "2")
+}
+
+func (l *List) DoingTask(n int) error {
+	return l.updateTask(n, "1")
+}
+
+func (l *List) UndoTask(n int) error {
+	return l.updateTask(n, "0")
 }
