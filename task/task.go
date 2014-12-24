@@ -155,3 +155,33 @@ func (l *List) DoingTask(n int) error {
 func (l *List) UndoTask(n int) error {
 	return l.updateTask(n, "0")
 }
+
+func (l *List) CleanTask() error {
+	tasks, err := l.Get()
+	if err != nil {
+		return err
+	}
+	for i, t := range tasks {
+		if strings.HasPrefix(t, "2") {
+			err = l.RemoveTask(i)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (l *List) ClearTask() error {
+	tasks, err := l.Get()
+	if err != nil {
+		return err
+	}
+	for i, _ := range tasks {
+		err = l.RemoveTask(i)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}

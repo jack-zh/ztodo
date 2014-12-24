@@ -39,6 +39,10 @@ const usage = `Usage:
 		Undo task N
 	gotodo doing N
 		Doing task N
+	gotodo clean
+		Rm done task
+	gotodo clear
+		Rm all task
 	gotodo add ...
 		Add task to list
 `
@@ -65,6 +69,8 @@ func main() {
 
 	list := task.NewList(*file)
 	a, n := flag.Arg(0), len(flag.Args())
+
+	a = strings.ToLower(a)
 
 	err := noAct
 	switch {
@@ -122,6 +128,10 @@ func main() {
 			break
 		}
 		err = list.UndoTask(i - 1)
+	case a == "clean" && n == 1:
+		err = list.CleanTask()
+	case a == "clear" && n == 1:
+		err = list.ClearTask()
 	default:
 		fmt.Fprint(os.Stdout, usage)
 	}

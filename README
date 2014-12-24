@@ -24,9 +24,12 @@ Usage:
         Undo task N
     gotodo doing N
         Doing task N
+    gotodo clean
+        Rm done task
+    gotodo clear
+        Rm all task
     gotodo add ...
         Add task to list
-
 
 Next version 0.3:
 
