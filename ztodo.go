@@ -4,7 +4,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/jack-zh/gotodo/task"
+	"github.com/jack-zh/ztodo/task"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -14,7 +14,7 @@ import (
 var noAct = errors.New("error")
 
 var (
-	file = flag.String("file", defaultFile(".zgotodo", "TODO"), "file in which to store tasks")
+	file = flag.String("file", defaultFile(".ztodo", "TODO"), "file in which to store tasks")
 	now  = flag.Bool("now", false, "when adding, insert at head")
 	done = flag.Bool("done", false, "don't actually add; just append to log file")
 )
@@ -27,23 +27,23 @@ func defaultFile(name, env string) string {
 }
 
 const usage = `Usage:
-	gotodo list
+	ztodo list
 		Show all tasks
-	gotodo list N
+	ztodo list N
 		Show task N
-	gotodo rm N
+	ztodo rm N
 		Remove task N
-	gotodo done N
+	ztodo done N
 		Done task N
-	gotodo undo N
+	ztodo undo N
 		Undo task N
-	gotodo doing N
+	ztodo doing N
 		Doing task N
-	gotodo clean
+	ztodo clean
 		Rm done task
-	gotodo clear
+	ztodo clear
 		Rm all task
-	gotodo add ...
+	ztodo add ...
 		Add task to list
 `
 

@@ -1,4 +1,4 @@
-gotodo version 0.2
+ztodo version 0.2
 
 A simple command-line todo list written in Go.
 
@@ -8,27 +8,27 @@ Installation:
     http://golang.org/doc/install.html
 
 2. Install todo:
-    $ go get github.com/jack-zh/gotodo
+    $ go get github.com/jack-zh/ztodo
 
 Usage:
 
-    gotodo list
+    ztodo list
         Show all tasks
-    gotodo list N
+    ztodo list N
         Show task N
-    gotodo rm N
+    ztodo rm N
         Remove task N
-    gotodo done N
+    ztodo done N
         Done task N
-    gotodo undo N
+    ztodo undo N
         Undo task N
-    gotodo doing N
+    ztodo doing N
         Doing task N
-    gotodo clean
+    ztodo clean
         Rm done task
-    gotodo clear
+    ztodo clear
         Rm all task
-    gotodo add ...
+    ztodo add ...
         Add task to list
 
 Next version 0.3:
