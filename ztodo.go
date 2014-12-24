@@ -71,6 +71,12 @@ func main() {
 	a, n := flag.Arg(0), len(flag.Args())
 
 	a = strings.ToLower(a)
+	if a == "ls" {
+		a = "list"
+	}
+	if a == "remove" {
+		a = "rm"
+	}
 
 	err := noAct
 	switch {
