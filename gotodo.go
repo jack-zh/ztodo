@@ -129,7 +129,7 @@ func main() {
 		fmt.Println(err)
 	} else {
 		if a != "list" {
-			fmt.Println("\nSuccess!")
+			fmt.Println("\nSuccess!\n")
 		}
 	}
 }
