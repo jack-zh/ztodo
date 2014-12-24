@@ -27,11 +27,11 @@ func defaultFile(name, env string) string {
 }
 
 const usage = `Usage:
-	ztodo list
+	ztodo list|ls
 		Show all tasks
-	ztodo list N
+	ztodo list|ls N
 		Show task N
-	ztodo rm N
+	ztodo rm|remove N
 		Remove task N
 	ztodo done N
 		Done task N
