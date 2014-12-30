@@ -4,7 +4,6 @@ package zweb
 
 import (
 	"bytes"
-	"code.google.com/p/go.net/websocket"
 	"crypto/hmac"
 	"crypto/sha1"
 	"crypto/tls"
@@ -251,11 +250,6 @@ func Match(method string, route string, handler interface{}) {
 //Adds a custom handler. Only for webserver mode. Will have no effect when running as FCGI or SCGI.
 func Handler(route string, method string, httpHandler http.Handler) {
 	mainServer.Handler(route, method, httpHandler)
-}
-
-//Adds a handler for websockets. Only for webserver mode. Will have no effect when running as FCGI or SCGI.
-func Websocket(route string, httpHandler websocket.Handler) {
-	mainServer.Websocket(route, httpHandler)
 }
 
 // SetLogger sets the logger for the main server.
