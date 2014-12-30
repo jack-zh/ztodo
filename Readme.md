@@ -12,7 +12,7 @@ A simple command-line todo list written in Go.
   
   http://golang.org/doc/install.html
 
-+ Install todo:
++ Install ztodo:
   
   $ go get github.com/jack-zh/ztodo
 
