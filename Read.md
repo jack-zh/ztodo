@@ -1,16 +1,22 @@
-ztodo version 0.2
+# ztodo 
 
 A simple command-line todo list written in Go.
 
-Installation:
+## Version
 
-1. Install Go:
-    http://golang.org/doc/install.html
+0.2
 
-2. Install todo:
-    $ go get github.com/jack-zh/ztodo
+## Installation:
 
-Usage:
++ 1. Install Go:
+  
+  http://golang.org/doc/install.html
+
++ 2. Install todo:
+  
+  $ go get github.com/jack-zh/ztodo
+
+## Usage:
 
     ztodo list|ls
         Show all tasks
@@ -31,13 +37,13 @@ Usage:
     ztodo add ...
         Add task to list
 
-Next version 0.3:
+## Next version 0.3:
 
-1. update time
-2. json file and data
-    
++ update time
++ json file and data
++ Base server
 
-License:
-    
-    MIT
 
+## License:
+
+ MIT
