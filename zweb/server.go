@@ -2,7 +2,6 @@ package zweb
 
 import (
 	"bytes"
-	"crypto/tls"
 	"fmt"
 	"log"
 	"net"
@@ -148,35 +147,6 @@ func (s *Server) Run(addr string) {
 	s.l = l
 	err = http.Serve(s.l, mux)
 	s.l.Close()
-}
-
-// RunFcgi starts the web application and serves FastCGI requests for s.
-func (s *Server) RunFcgi(addr string) {
-	s.initServer()
-	s.Logger.Printf("zweb.go serving fcgi %s\n", addr)
-	s.listenAndServeFcgi(addr)
-}
-
-// RunScgi starts the web application and serves SCGI requests for s.
-func (s *Server) RunScgi(addr string) {
-	s.initServer()
-	s.Logger.Printf("zweb.go serving scgi %s\n", addr)
-	s.listenAndServeScgi(addr)
-}
-
-// RunTLS starts the web application and serves HTTPS requests for s.
-func (s *Server) RunTLS(addr string, config *tls.Config) error {
-	s.initServer()
-	mux := http.NewServeMux()
-	mux.Handle("/", s)
-	l, err := tls.Listen("tcp", addr, config)
-	if err != nil {
-		log.Fatal("Listen:", err)
-		return err
-	}
-
-	s.l = l
-	return http.Serve(s.l, mux)
 }
 
 // Close stops server s.
