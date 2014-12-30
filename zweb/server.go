@@ -6,7 +6,6 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"net/http/pprof"
 	"os"
 	"path"
 	"reflect"
@@ -24,7 +23,6 @@ type ServerConfig struct {
 	Port         int
 	CookieSecret string
 	RecoverPanic bool
-	Profiler     bool
 }
 
 // Server represents a zweb.go server.
@@ -130,12 +128,7 @@ func (s *Server) Run(addr string) {
 	s.initServer()
 
 	mux := http.NewServeMux()
-	if s.Config.Profiler {
-		mux.Handle("/debug/pprof/cmdline", http.HandlerFunc(pprof.Cmdline))
-		mux.Handle("/debug/pprof/profile", http.HandlerFunc(pprof.Profile))
-		mux.Handle("/debug/pprof/heap", pprof.Handler("heap"))
-		mux.Handle("/debug/pprof/symbol", http.HandlerFunc(pprof.Symbol))
-	}
+
 	mux.Handle("/", s)
 
 	s.Logger.Printf("zweb.go serving %s\n", addr)
