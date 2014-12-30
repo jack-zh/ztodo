@@ -8,11 +8,11 @@ A simple command-line todo list written in Go.
 
 ## Installation:
 
-+ 1. Install Go:
++ Install Go:
   
   http://golang.org/doc/install.html
 
-+ 2. Install todo:
++ Install todo:
   
   $ go get github.com/jack-zh/ztodo
 
