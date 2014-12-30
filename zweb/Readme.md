@@ -75,7 +75,7 @@ the code.
 
 ## About
 
-web.go was written by [Jack.z](http://link-pub.cn). 
+zweb.go was written by [Jack.z](http://link-pub.cn). 
 
 ## License:
     

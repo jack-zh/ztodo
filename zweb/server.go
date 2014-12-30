@@ -29,7 +29,7 @@ type ServerConfig struct {
 	Profiler     bool
 }
 
-// Server represents a web.go server.
+// Server represents a zweb.go server.
 type Server struct {
 	Config *ServerConfig
 	routes []route
@@ -145,7 +145,7 @@ func (s *Server) Run(addr string) {
 	}
 	mux.Handle("/", s)
 
-	s.Logger.Printf("web.go serving %s\n", addr)
+	s.Logger.Printf("zweb.go serving %s\n", addr)
 
 	l, err := net.Listen("tcp", addr)
 	if err != nil {
@@ -159,14 +159,14 @@ func (s *Server) Run(addr string) {
 // RunFcgi starts the web application and serves FastCGI requests for s.
 func (s *Server) RunFcgi(addr string) {
 	s.initServer()
-	s.Logger.Printf("web.go serving fcgi %s\n", addr)
+	s.Logger.Printf("zweb.go serving fcgi %s\n", addr)
 	s.listenAndServeFcgi(addr)
 }
 
 // RunScgi starts the web application and serves SCGI requests for s.
 func (s *Server) RunScgi(addr string) {
 	s.initServer()
-	s.Logger.Printf("web.go serving scgi %s\n", addr)
+	s.Logger.Printf("zweb.go serving scgi %s\n", addr)
 	s.listenAndServeScgi(addr)
 }
 
@@ -291,7 +291,7 @@ func (s *Server) logRequest(ctx Context, sTime time.Time) {
 
 }
 
-// the main route handler in web.go
+// the main route handler in zweb.go
 // Tries to handle the given request.
 // Finds the route matching the request, and execute the callback associated
 // with it.  In case of custom http handlers, this function returns an "unused"
@@ -302,7 +302,7 @@ func (s *Server) routeHandler(req *http.Request, w http.ResponseWriter) (unused 
 	ctx := Context{req, map[string]string{}, s, w}
 
 	//set some default headers
-	ctx.SetHeader("Server", "web.go", true)
+	ctx.SetHeader("Server", "zweb.go", true)
 	tm := time.Now().UTC()
 
 	//ignore errors from ParseForm because it's usually harmless.
