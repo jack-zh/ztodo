@@ -1,8 +1,8 @@
 package main
 
 import (
-    "fmt"
-    "github.com/jack-zh/ztodo/zweb"
+	"fmt"
+	"github.com/jack-zh/ztodo/zweb"
 )
 
 var page = `
@@ -33,11 +33,11 @@ var page = `
 func index() string { return page }
 
 func process(ctx *zweb.Context) string {
-    return fmt.Sprintf("%v\n", ctx.Params)
+	return fmt.Sprintf("%v\n", ctx.Params)
 }
 
 func main() {
-    zweb.Get("/", index)
-    zweb.Post("/process", process)
-    zweb.Run("0.0.0.0:9999")
+	zweb.Get("/", index)
+	zweb.Post("/process", process)
+	zweb.Run("0.0.0.0:9999")
 }

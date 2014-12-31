@@ -1,9 +1,9 @@
 package main
 
 import (
-    "fmt"
-    "github.com/jack-zh/ztodo/zweb"
-    "html"
+	"fmt"
+	"github.com/jack-zh/ztodo/zweb"
+	"html"
 )
 
 var cookieName = "cookie"
@@ -24,28 +24,28 @@ var form = `
 `
 
 func index(ctx *zweb.Context) string {
-    cookie, _ := ctx.Request.Cookie(cookieName)
-    var top string
-    if cookie == nil {
-        top = fmt.Sprintf(notice, "The cookie has not been set")
-    } else {
-        var val = html.EscapeString(cookie.Value)
-        top = fmt.Sprintf(notice, "The value of the cookie is '"+val+"'.")
-    }
-    return top + form
+	cookie, _ := ctx.Request.Cookie(cookieName)
+	var top string
+	if cookie == nil {
+		top = fmt.Sprintf(notice, "The cookie has not been set")
+	} else {
+		var val = html.EscapeString(cookie.Value)
+		top = fmt.Sprintf(notice, "The value of the cookie is '"+val+"'.")
+	}
+	return top + form
 }
 
 func update(ctx *zweb.Context) {
-    if ctx.Params["submit"] == "Delete" {
-        ctx.SetCookie(zweb.NewCookie(cookieName, "", -1))
-    } else {
-        ctx.SetCookie(zweb.NewCookie(cookieName, ctx.Params["cookie"], 0))
-    }
-    ctx.Redirect(301, "/")
+	if ctx.Params["submit"] == "Delete" {
+		ctx.SetCookie(zweb.NewCookie(cookieName, "", -1))
+	} else {
+		ctx.SetCookie(zweb.NewCookie(cookieName, ctx.Params["cookie"], 0))
+	}
+	ctx.Redirect(301, "/")
 }
 
 func main() {
-    zweb.Get("/", index)
-    zweb.Post("/update", update)
-    zweb.Run("0.0.0.0:9999")
+	zweb.Get("/", index)
+	zweb.Post("/update", update)
+	zweb.Run("0.0.0.0:9999")
 }
