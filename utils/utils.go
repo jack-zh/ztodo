@@ -32,7 +32,7 @@ func Credentials() (string, string) {
 func CredentialsRetype() (string, string, string) {
 	word := "=)"
 	var r, g, b uint8
-	r, g, b = 252, 255, 43
+	r, g, b = 43, 43, 43
 	coloredWord := rgbterm.BgString(word, r, g, b)
 	fmt.Println("Oh!", coloredWord, "hello!")
 	reader := bufio.NewReader(os.Stdin)
