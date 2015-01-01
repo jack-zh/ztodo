@@ -6,17 +6,16 @@ import (
 )
 
 type Item struct {
-	Token    string
 	UserName string
 	Password string
 }
 
-func signup() string {
-	return "signup-->"
+func signup(username string, password string) string {
+	return "signup success"
 }
 
 func login() string {
-	return ""
+	return "login success"
 }
 
 func getuser(usertokenstr string) string {
