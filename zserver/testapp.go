@@ -14,7 +14,7 @@ func signup(username string, password string) string {
 	return "signup success"
 }
 
-func login() string {
+func login(username string, password string) string {
 	return "login success"
 }
 
