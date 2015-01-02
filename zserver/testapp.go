@@ -10,12 +10,17 @@ type Item struct {
 	Password string
 }
 
-func signup(username string, password string) string {
-	return "signup success"
+type BackCode struct {
+	Message string
+	CodeNum int
 }
 
-func login(username string, password string) string {
-	return "login success"
+func signup(username string, password string) BackCode {
+	return new BackCode{"success", 1}
+}
+
+func login(username string, password string) BackCode {
+	return new BackCode{"success", 1}
 }
 
 func getuser(usertokenstr string) string {
