@@ -4,7 +4,7 @@ A simple command-line todo list written in Go.
 
 ## Version
 
-0.2
+0.3
 
 ## Installation:
 
@@ -18,6 +18,8 @@ A simple command-line todo list written in Go.
 
 ## Usage:
 
+    ztodo version
+        Show ztodo version
     ztodo list|ls
         Show all tasks
     ztodo list|ls N
@@ -37,11 +39,10 @@ A simple command-line todo list written in Go.
     ztodo add ...
         Add task to list
 
-## Next version 0.3:
+## Next version 0.4:
 
-+ update time
-+ json file and data
 + Base server
++ Base client pull push
 
 
 ## License:

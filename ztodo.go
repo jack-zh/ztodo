@@ -13,6 +13,8 @@ import (
 
 var noAct = errors.New("error")
 
+var version = "ztodo version 0.4 (2015-01-01 build)"
+
 var (
 	file = flag.String("file", defaultFile(".ztodo", "TODO"), "file in which to store tasks")
 	now  = flag.Bool("now", false, "when adding, insert at head")
@@ -27,6 +29,8 @@ func defaultFile(name, env string) string {
 }
 
 const usage = `Usage:
+	ztodo version
+		Show ztodo version
 	ztodo list|ls
 		Show all tasks
 	ztodo list|ls N
@@ -80,6 +84,9 @@ func main() {
 
 	err := noAct
 	switch {
+	case a == "version" && n == 1:
+		fmt.Println(version)
+		err = nil
 	case a == "list" && n == 1:
 		var tasks []string
 		tasks, err = list.Get()
