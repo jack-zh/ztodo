@@ -1,21 +1,23 @@
 # 1. For Server
 
 ### 1.1 Global json
-	[
-	  "tokenStr1":{
-	    "username": "username1",
-	    "password": "password1",
-	    "pushtime": "2014-12-31 23:59:59",
-	    "pushtoken":"pushtokenstr1"
-	  },
-	  "tokenStr2":{
-	    "username": "username2",
-	    "password": "password2",
-	    "pushtime": "2014-12-31 23:59:59",
-	    "pushtoken":"pushtokenstr2"
-	  }
-	  ...
-	]
+    [
+      "tokenStr1":{
+        "username": "username1",
+        "password": "password1",
+        "signintime": "2014-12-31 23:59:59",
+        "pushtime": "2014-12-31 23:59:59",
+        "pushtoken":"pushtokenstr1"
+      },
+      "tokenStr2":{
+        "username": "username2",
+        "password": "password2",
+        "signintime": "2014-12-31 23:59:59",
+        "pushtime": "2014-12-31 23:59:59",
+        "pushtoken":"pushtokenstr2"
+      }
+      ...
+    ]
 
 ### 1.2 taskJson
 
