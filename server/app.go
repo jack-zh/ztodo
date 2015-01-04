@@ -32,6 +32,10 @@ func pushone(ctx *zweb.Context, usertokenstr string) string {
 	return "pushone==> usertokenstr:" + usertokenstr
 }
 
+func pnf(url string) string {
+	return "{'error': 404}"
+}
+
 func main() {
 	zweb.Get("/pullall/(.*)", pullall)
 	zweb.Get("/getuser/(.*)", getuser)
@@ -42,6 +46,9 @@ func main() {
 
 	zweb.Post("/pushall/(.*)", pushall)
 	zweb.Post("/pushone/(.*)", pushone)
+
+	// zweb.Get("/(.*)", pnf)
+	// zweb.Post("/(.*)", pnf)
 
 	zweb.Run("0.0.0.0:9999")
 }
