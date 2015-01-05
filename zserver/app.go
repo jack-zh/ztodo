@@ -47,8 +47,8 @@ func main() {
 	zweb.Post("/pushall/(.*)", pushall)
 	zweb.Post("/pushone/(.*)", pushone)
 
-	// zweb.Get("/(.*)", pnf)
-	// zweb.Post("/(.*)", pnf)
+	zweb.Get("/(.*)", pnf)
+	zweb.Post("/(.*)", pnf)
 
 	zweb.Run("0.0.0.0:9999")
 }
