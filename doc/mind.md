@@ -1,7 +1,7 @@
 # 1. For Server
 
 ### 1.1 Global json
-    [
+    {
       "tokenStr1":{
         "username": "username1",
         "password": "password1",
@@ -17,21 +17,23 @@
         "pushtoken":"pushtokenstr2"
       }
       ...
-    ]
+    }
 
 ### 1.2 taskJson
 
     [
-        "tokenStr1":{
+        {
             "task": "--- task1",
+            "token":"tokenstr1",
             "createtime": "2014-12-31 23:59:56",
             "doingtime": "2014-12-31 23:59:59",
             "donetime":null,
             "updatetime":"2014-12-31 23:59:57",
             "status":"doing"
         },
-        "tokenStr2":{
+        {
             "task": "--- task2",
+            "token":"tokenstr2",
             "createtime": "2014-12-31 23:59:56",
             "doingtime": "2014-12-31 23:59:59",
             "updatetime":"2014-12-31 23:59:57",
@@ -44,18 +46,20 @@
 
 ### 1.3 taskHistory
     [
-        "tokenStr1":{
+        {
+            "token":"tokenstr1",
             "task": "--- task1",
             "createtime": "2014-12-31 23:59:56",
+            "doingtime": "2014-12-31 23:59:58",
+            "donetime":null
+        },
+        {
+            "token":"tokenstr2",
+            "task": "--- task2",
+            "createtime": "2014-12-31 23:59:57",
             "doingtime": "2014-12-31 23:59:59",
             "donetime":null
         },
-        "tokenStr2":{
-            "task": "--- task2",
-            "createtime": "2014-12-31 23:59:56",
-            "doingtime": "2014-12-31 23:59:59",
-            "donetime":null
-        }
         ...
     ]
 
@@ -66,7 +70,7 @@
     {
         "usertoken":"tokenStr",
         "pushtime":"2014-12-31 23:59:57",
-        "pushtoken":"2014-12-31 23:59:59",
+        "pushtoken":"tokenstr",
         "username":"username",
         "password":"password"
     }
@@ -74,10 +78,22 @@
 ### 2.2 taskJson
 
     [
-        "taskToken1":{
+        {
             "task":"---task1...",
-            "updatetime":"2014-12-31 23:59:57",
-            "status":"doing",
+            "token":""tokenstr1,            
+            "createtime":"2014-12-31 23:59:57",
+            "doingtime":"2014-12-31 23:59:58",
+            "donetime":"2014-12-31 23:59:59",
+            "status":"doing"
+        },
+        {
+            "task":"---task2...",
+            "token":""tokenstr2,
+            "createtime":"2014-12-31 23:58:57",
+            "doingtime":"2014-12-31 23:58:58",
+            "donetime":"2014-12-31 23:58:59",
+            "status":"doing"
         }
+        ...
     ]
     
