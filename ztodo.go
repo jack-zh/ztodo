@@ -13,7 +13,7 @@ import (
 
 var noAct = errors.New("error")
 
-var version = "ztodo version 0.4 (2015-01-01 build)"
+var version = "ztodo version 0.4 (2015-01-05 build)"
 
 var (
 	file = flag.String("file", defaultFile(".ztodo", "TODO"), "file in which to store tasks")
@@ -87,6 +87,11 @@ func main() {
 	case a == "version" && n == 1:
 		fmt.Println(version)
 		err = nil
+
+	case a == "help" && n == 1:
+		fmt.Println(usage)
+		err = nil
+
 	case a == "list" && n == 1:
 		var tasks []string
 		tasks, err = list.Get()
@@ -151,7 +156,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		if a != "list" {
+		if a != "list" && a != "version" && a != "help" {
 			fmt.Println("\nSuccess!\n")
 		}
 	}

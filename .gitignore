@@ -21,6 +21,7 @@ _testmain.go
 
 *.exe
 ztodo
+zserver
 *.test
 *.prof
 test/*
