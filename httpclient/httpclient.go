@@ -16,8 +16,11 @@ func HTTPClientGet(url string) (string, error) {
 	return body, err
 }
 
-func HTTPClientPost(url string) (string, error) {
-	resp, err := http.Get(url)
+func HTTPClientPost(url string, task string) (string, error) {
+	resp, err := http.Post(url,
+		"application/x-www-form-urlencoded",
+		strings.NewReader("task="+task))
+
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 
