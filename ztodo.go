@@ -59,7 +59,7 @@ func dirCheck() error {
 	var filename = filepath.Join(os.Getenv("HOME"), ".ztodo")
 	finfo, err := os.Stat(filename)
 	if err != nil {
-		os.Mkdir(filename, 0)
+		os.Mkdir(filename, os.ModePerm)
 		return nil
 	}
 	if finfo.IsDir() {
