@@ -53,18 +53,9 @@ func (l *List) updateTask(n int, upstr string) error {
 	return nil
 }
 
-func (l *List) AddTask(s string, top bool) error {
+func (l *List) AddTask(s string) error {
 	s = strings.Join([]string{"0", time.Now().Format("[2006-01-02 15:04:05]"), s}, " ")
 	var flags = os.O_WRONLY | os.O_CREATE | os.O_APPEND
-	var tasks []string
-	if top {
-		var err error
-		tasks, err = l.Get()
-		if err != nil {
-			return err
-		}
-		flags = os.O_WRONLY | os.O_CREATE | os.O_TRUNC
-	}
 	f, err := os.OpenFile(l.filename, flags, 0600)
 	if err != nil {
 		return err
@@ -73,14 +64,6 @@ func (l *List) AddTask(s string, top bool) error {
 	_, err = fmt.Fprintln(f, s)
 	if err != nil {
 		return err
-	}
-	if top {
-		for _, t := range tasks {
-			_, err = fmt.Fprintln(f, t)
-			if err != nil {
-				break
-			}
-		}
 	}
 	return err
 }

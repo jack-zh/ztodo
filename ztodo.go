@@ -15,18 +15,8 @@ var noAct = errors.New("error")
 
 var version = "ztodo version 0.4 (2015-01-05 build)"
 
-var (
-	file = flag.String("file", defaultFile(".ztodo", "TODO"), "file in which to store tasks")
-	now  = flag.Bool("now", false, "when adding, insert at head")
-	done = flag.Bool("done", false, "don't actually add; just append to log file")
-)
-
-func defaultFile(name, env string) string {
-	if f := os.Getenv(env); f != "" {
-		return f
-	}
-	return filepath.Join(os.Getenv("HOME"), name)
-}
+var userconfig_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "userconfig.json")
+var tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "tasks.json")
 
 const usage = `Usage:
 	ztodo version
@@ -64,14 +54,32 @@ func printTask(task string, i string) {
 	fmt.Printf("%2s: %s\n", i, task)
 }
 
+func dirCheck() error {
+	var filename = filepath.Join(os.Getenv("HOME"), ".ztodo")
+	finfo, err := os.Stat(filename)
+	if err != nil {
+		os.Mkdir(filename, 0)
+		return nil
+	}
+	if finfo.IsDir() {
+		return nil
+	} else {
+		return errors.New("$HOME/.ztodo is a file not dir.")
+	}
+}
+
 func main() {
+	errdir := dirCheck()
+	if errdir != nil {
+		os.Exit(1)
+	}
 	flag.Usage = func() {
 		fmt.Fprint(os.Stderr, usage)
 		flag.PrintDefaults()
 	}
 	flag.Parse()
 
-	list := task.NewList(*file)
+	list := task.NewList(tasks_filename)
 	a, n := flag.Arg(0), len(flag.Args())
 
 	a = strings.ToLower(a)
@@ -122,7 +130,7 @@ func main() {
 		}
 	case a == "add" && n > 1:
 		t := strings.Join(flag.Args()[1:], " ")
-		err = list.AddTask(t, *now)
+		err = list.AddTask(t)
 
 	case a == "doing" && n == 2:
 		i, err3 := strconv.Atoi(flag.Args()[1])
