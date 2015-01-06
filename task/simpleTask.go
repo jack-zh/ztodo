@@ -10,16 +10,16 @@ import (
 	"time"
 )
 
-type List struct {
+type SimpleList struct {
 	filename string
 }
 
-func NewList(filename string) *List {
-	return &List{filename}
+func SimpleNewList(filename string) *SimpleList {
+	return &SimpleList{filename}
 }
 
-func (l *List) updateTask(n int, upstr string) error {
-	tasks, err := l.Get()
+func (l *SimpleList) SimpleUpdateTask(n int, upstr string) error {
+	tasks, err := l.SimpleGet()
 	if err != nil {
 		return err
 	}
@@ -53,7 +53,7 @@ func (l *List) updateTask(n int, upstr string) error {
 	return nil
 }
 
-func (l *List) AddTask(s string) error {
+func (l *SimpleList) SimpleAddTask(s string) error {
 	s = strings.Join([]string{"0", time.Now().Format("[2006-01-02 15:04:05]"), s}, " ")
 	var flags = os.O_WRONLY | os.O_CREATE | os.O_APPEND
 	f, err := os.OpenFile(l.filename, flags, 0600)
@@ -68,8 +68,8 @@ func (l *List) AddTask(s string) error {
 	return err
 }
 
-func (l *List) RemoveTask(n int) error {
-	tasks, err := l.Get()
+func (l *SimpleList) SimpleRemoveTask(n int) error {
+	tasks, err := l.SimpleGet()
 	if n >= len(tasks) || n < 0 {
 		return errors.New("index out of range")
 	}
@@ -93,8 +93,8 @@ func (l *List) RemoveTask(n int) error {
 	return nil
 }
 
-func (l *List) GetTask(n int) (string, error) {
-	tasks, err := l.Get()
+func (l *SimpleList) SimpleGetTask(n int) (string, error) {
+	tasks, err := l.SimpleGet()
 	if err != nil {
 		return "", err
 	}
@@ -104,7 +104,7 @@ func (l *List) GetTask(n int) (string, error) {
 	return tasks[n], nil
 }
 
-func (l *List) Get() ([]string, error) {
+func (l *SimpleList) SimpleGet() ([]string, error) {
 	f, err := os.Open(l.filename)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -127,26 +127,26 @@ func (l *List) Get() ([]string, error) {
 	return tasks, nil
 }
 
-func (l *List) DoneTask(n int) error {
-	return l.updateTask(n, "2")
+func (l *SimpleList) SimpleDoneTask(n int) error {
+	return l.SimpleUpdateTask(n, "2")
 }
 
-func (l *List) DoingTask(n int) error {
-	return l.updateTask(n, "1")
+func (l *SimpleList) SimpleDoingTask(n int) error {
+	return l.SimpleUpdateTask(n, "1")
 }
 
-func (l *List) UndoTask(n int) error {
-	return l.updateTask(n, "0")
+func (l *SimpleList) SimpleUndoTask(n int) error {
+	return l.SimpleUpdateTask(n, "0")
 }
 
-func (l *List) CleanTask() error {
-	tasks, err := l.Get()
+func (l *SimpleList) SimpleCleanTask() error {
+	tasks, err := l.SimpleGet()
 	if err != nil {
 		return err
 	}
 	for i, t := range tasks {
 		if strings.HasPrefix(t, "2") {
-			err = l.RemoveTask(i)
+			err = l.SimpleRemoveTask(i)
 			if err != nil {
 				return err
 			}
@@ -155,13 +155,13 @@ func (l *List) CleanTask() error {
 	return nil
 }
 
-func (l *List) ClearTask() error {
-	tasks, err := l.Get()
+func (l *SimpleList) SimpleClearTask() error {
+	tasks, err := l.SimpleGet()
 	if err != nil {
 		return err
 	}
 	for i, _ := range tasks {
-		err = l.RemoveTask(i)
+		err = l.SimpleRemoveTask(i)
 		if err != nil {
 			return err
 		}
