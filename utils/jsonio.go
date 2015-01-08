@@ -2,8 +2,10 @@ package utils
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
+	"reflect"
 )
 
 func Str2Map(jsonStr string) (map[string]interface{}, error) {
@@ -32,4 +34,25 @@ func Map2File(mapobj map[string]interface{}, filename string) error {
 	enc := json.NewEncoder(fd)
 	enc.Encode(mapobj)
 	return nil
+}
+
+func Struct2Map(obj interface{}) (map[string]interface{}, error) {
+	t := reflect.TypeOf(obj)
+	v := reflect.ValueOf(obj)
+	var data = make(map[string]interface{})
+	for i := 0; i < t.NumField(); i++ {
+		fmt.Println("...")
+		key := t.Field(i).Name
+		value := v.FieldByName(key).String()
+		data[key] = value
+	}
+	return data, nil
+}
+
+func Struct2File(obj interface{}) error {
+	mapObj, err := Struct2Map(obj)
+	if err != nil {
+		return err
+	}
+	return Map2File(mapObj, "nil")
 }
