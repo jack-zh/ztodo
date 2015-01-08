@@ -16,7 +16,7 @@ var noAct = errors.New("error")
 var version = "ztodo version 0.4 (2015-01-05 build)"
 
 var userconfig_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "userconfig.json")
-var tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "tasks.json")
+var cloud_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "tasks.json")
 var simple_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "simpletasks")
 
 const usage = `Usage:
@@ -80,7 +80,8 @@ func main() {
 	}
 	flag.Parse()
 
-	list := task.SimpleNewList(simple_tasks_filename)
+	simplelist := task.SimpleNewList(simple_tasks_filename)
+	// cloudlist := task.CloudNewList(cloud_tasks_filename)
 	a, n := flag.Arg(0), len(flag.Args())
 
 	a = strings.ToLower(a)
@@ -103,7 +104,7 @@ func main() {
 
 	case a == "list" && n == 1:
 		var tasks []string
-		tasks, err = list.SimpleGet()
+		tasks, err = simplelist.SimpleGet()
 		for i := 0; i < len(tasks); i++ {
 			printTask(tasks[i], strconv.Itoa(i+1))
 		}
@@ -115,7 +116,7 @@ func main() {
 			break
 		}
 		var task string
-		task, err = list.SimpleGetTask(i - 1)
+		task, err = simplelist.SimpleGetTask(i - 1)
 		if err == nil {
 			printTask(task, strconv.Itoa(i))
 		}
@@ -125,13 +126,14 @@ func main() {
 			fmt.Fprint(os.Stdout, usage)
 			break
 		}
-		err = list.SimpleRemoveTask(i - 1)
+		err = simplelist.SimpleRemoveTask(i - 1)
 		if err != nil {
 			break
 		}
 	case a == "add" && n > 1:
 		t := strings.Join(flag.Args()[1:], " ")
-		err = list.SimpleAddTask(t)
+		err = simplelist.SimpleAddTask(t)
+		// err = cloudlist.CloudAddTask(t)
 
 	case a == "doing" && n == 2:
 		i, err3 := strconv.Atoi(flag.Args()[1])
@@ -139,7 +141,7 @@ func main() {
 			fmt.Fprint(os.Stdout, usage)
 			break
 		}
-		err = list.SimpleDoingTask(i - 1)
+		err = simplelist.SimpleDoingTask(i - 1)
 
 	case a == "done" && n == 2:
 		i, err4 := strconv.Atoi(flag.Args()[1])
@@ -147,18 +149,18 @@ func main() {
 			fmt.Fprint(os.Stdout, usage)
 			break
 		}
-		err = list.SimpleDoneTask(i - 1)
+		err = simplelist.SimpleDoneTask(i - 1)
 	case a == "undo" && n == 2:
 		i, err5 := strconv.Atoi(flag.Args()[1])
 		if err5 != nil {
 			fmt.Fprint(os.Stdout, usage)
 			break
 		}
-		err = list.SimpleUndoTask(i - 1)
+		err = simplelist.SimpleUndoTask(i - 1)
 	case a == "clean" && n == 1:
-		err = list.SimpleCleanTask()
+		err = simplelist.SimpleCleanTask()
 	case a == "clear" && n == 1:
-		err = list.SimpleClearTask()
+		err = simplelist.SimpleClearTask()
 	default:
 		fmt.Fprint(os.Stdout, usage)
 	}
