@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"github.com/jack-zh/ztodo/utils"
 	"io"
 	"os"
 	"strings"
@@ -65,18 +66,22 @@ func (l *CloudTasks) CloudUpdateTask(n int, upstr string) error {
 }
 
 func (l *CloudTasks) CloudAddTask(s string) error {
-	s = strings.Join([]string{"0", time.Now().Format("[2006-01-02 15:04:05]"), s}, " ")
-	var flags = os.O_WRONLY | os.O_CREATE | os.O_APPEND
-	f, err := os.OpenFile(l.filename, flags, 0600)
-	if err != nil {
-		return err
+	create_time_str := time.Now().Format("2006-01-02 15:04:05")
+	doing_time_str := "2006-01-02 15:04:05"
+	done_time_str := "2006-01-02 15:04:05"
+	status := "Future"
+	task_str := s
+	token, _ := utils.GenUUID()
+	task := CloudTask{
+		task:       task_str,
+		token:      token,
+		createtime: create_time_str,
+		doingtime:  doing_time_str,
+		donetime:   done_time_str,
+		status:     status,
+		updatetime: create_time_str,
 	}
-	defer f.Close()
-	_, err = fmt.Fprintln(f, s)
-	if err != nil {
-		return err
-	}
-	return err
+	return utils.Struct2File(task)
 }
 
 func (l *CloudTasks) CloudRemoveTask(n int) error {
