@@ -42,7 +42,7 @@ const usage = `Usage:
 		Add task to list
 `
 
-func printTask(t string, i string) {
+func printSimpleTask(t string, i string) {
 	if strings.HasPrefix(t, "0") {
 		t = strings.Replace(t, "0", "[Future]", 1)
 	}
@@ -81,7 +81,7 @@ func main() {
 	flag.Parse()
 
 	simplelist := task.SimpleNewList(simple_tasks_filename)
-	// cloudlist := task.CloudNewList(cloud_tasks_filename)
+	cloudlist := task.CloudNewList(cloud_tasks_filename)
 	a, n := flag.Arg(0), len(flag.Args())
 
 	a = strings.ToLower(a)
@@ -102,11 +102,69 @@ func main() {
 		fmt.Println(usage)
 		err = nil
 
-	case a == "list" && n == 1:
+	case a == "simplelist" && n == 1:
 		var tasks []string
 		tasks, err = simplelist.SimpleGet()
 		for i := 0; i < len(tasks); i++ {
-			printTask(tasks[i], strconv.Itoa(i+1))
+			printSimpleTask(tasks[i], strconv.Itoa(i+1))
+		}
+	case a == "simplelist" && n == 2:
+		i, err2 := strconv.Atoi(flag.Arg(1))
+		if err2 != nil {
+			fmt.Fprint(os.Stdout, usage)
+			break
+		}
+		var task string
+		task, err = simplelist.SimpleGetTask(i - 1)
+		if err == nil {
+			printSimpleTask(task, strconv.Itoa(i))
+		}
+	case a == "simplerm" && n == 2:
+		i, err2 := strconv.Atoi(flag.Arg(1))
+		if err2 != nil {
+			fmt.Fprint(os.Stdout, usage)
+			break
+		}
+		err = simplelist.SimpleRemoveTask(i - 1)
+		if err != nil {
+			break
+		}
+	case a == "simpleadd" && n > 1:
+		t := strings.Join(flag.Args()[1:], " ")
+		err = simplelist.SimpleAddTask(t)
+		err = cloudlist.CloudAddTask(t)
+
+	case a == "simpledoing" && n == 2:
+		i, err3 := strconv.Atoi(flag.Args()[1])
+		if err3 != nil {
+			fmt.Fprint(os.Stdout, usage)
+			break
+		}
+		err = simplelist.SimpleDoingTask(i - 1)
+
+	case a == "simpledone" && n == 2:
+		i, err4 := strconv.Atoi(flag.Args()[1])
+		if err4 != nil {
+			fmt.Fprint(os.Stdout, usage)
+			break
+		}
+		err = simplelist.SimpleDoneTask(i - 1)
+	case a == "simpleundo" && n == 2:
+		i, err5 := strconv.Atoi(flag.Args()[1])
+		if err5 != nil {
+			fmt.Fprint(os.Stdout, usage)
+			break
+		}
+		err = simplelist.SimpleUndoTask(i - 1)
+	case a == "simpleclean" && n == 1:
+		err = simplelist.SimpleCleanTask()
+	case a == "simpleclear" && n == 1:
+		err = simplelist.SimpleClearTask()
+
+	case a == "list" && n == 1:
+		err = cloudlist.CloudGetAllTaskByFile()
+		if err == nil {
+			cloudlist.CloudTasksPrint(-1)
 		}
 
 	case a == "list" && n == 2:
@@ -118,7 +176,7 @@ func main() {
 		var task string
 		task, err = simplelist.SimpleGetTask(i - 1)
 		if err == nil {
-			printTask(task, strconv.Itoa(i))
+			printSimpleTask(task, strconv.Itoa(i))
 		}
 	case a == "rm" && n == 2:
 		i, err2 := strconv.Atoi(flag.Arg(1))
@@ -133,7 +191,7 @@ func main() {
 	case a == "add" && n > 1:
 		t := strings.Join(flag.Args()[1:], " ")
 		err = simplelist.SimpleAddTask(t)
-		// err = cloudlist.CloudAddTask(t)
+		err = cloudlist.CloudAddTask(t)
 
 	case a == "doing" && n == 2:
 		i, err3 := strconv.Atoi(flag.Args()[1])

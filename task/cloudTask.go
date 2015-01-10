@@ -206,3 +206,8 @@ func (l *CloudTasks) CloudClearTask() error {
 	// }
 	return nil
 }
+
+func (l *CloudTasks) CloudTasksPrint(i int) {
+	fmt.Println("---")
+	fmt.Println(l)
+}
