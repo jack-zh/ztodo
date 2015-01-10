@@ -2,12 +2,13 @@ package task
 
 import (
 	"bufio"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/jack-zh/ztodo/utils"
 	"io"
 	"os"
-	"strings"
+	// "strings"
 	"time"
 )
 
@@ -31,37 +32,90 @@ func CloudNewList(filename string) *CloudTasks {
 }
 
 func (l *CloudTasks) CloudUpdateTask(n int, upstr string) error {
-	tasks, err := l.CloudGet()
+	// tasks, err := l.CloudGet()
+	// if err != nil {
+	// 	return err
+	// }
+	// if n >= len(tasks) || n < 0 {
+	// 	return errors.New("index out of range")
+	// }
+	// f, err := os.Create(l.Filename)
+	// if err != nil {
+	// 	return err
+	// }
+	// defer f.Close()
+	// for i, t := range tasks {
+	// 	if i == n {
+	// 		if strings.HasPrefix(t, "1") {
+	// 			t = strings.Replace(t, "1", upstr, 1)
+	// 		}
+	// 		if strings.HasPrefix(t, "2") {
+	// 			t = strings.Replace(t, "2", upstr, 1)
+	// 		}
+	// 		if strings.HasPrefix(t, "0") {
+	// 			t = strings.Replace(t, "0", upstr, 1)
+	// 		}
+	// 		_, err = fmt.Fprintln(f, t)
+	// 	} else {
+	// 		_, err = fmt.Fprintln(f, t)
+	// 	}
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// }
+	return nil
+}
+
+func (l *CloudTasks) CloudGetTask(n int) (string, error) {
+	// tasks, err := l.CloudGet()
+	// if err != nil {
+	// 	return "", err
+	// }
+	// if n >= len(tasks) || n < 0 {
+	// 	return "", errors.New("index out of range")
+	// }
+	// return tasks[n], nil
+	return "nil", nil
+}
+
+func (l *CloudTasks) CloudGetAllTaskByFile() error {
+	f, err := os.Open(l.Filename)
 	if err != nil {
-		return err
+		if os.IsNotExist(err) {
+			return errors.New("no file")
+		}
+		return errors.New("open file error")
 	}
-	if n >= len(tasks) || n < 0 {
-		return errors.New("index out of range")
+
+	var tasks_string string
+	br := bufio.NewReader(f)
+	for {
+		t, _, err := br.ReadLine()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		tasks_string += string(t)
 	}
+
+	tasks := &l.Tasks
+	return json.Unmarshal([]byte(tasks_string), tasks)
+}
+
+func (l *CloudTasks) CloudTaskToFile() error {
 	f, err := os.Create(l.Filename)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
-	for i, t := range tasks {
-		if i == n {
-			if strings.HasPrefix(t, "1") {
-				t = strings.Replace(t, "1", upstr, 1)
-			}
-			if strings.HasPrefix(t, "2") {
-				t = strings.Replace(t, "2", upstr, 1)
-			}
-			if strings.HasPrefix(t, "0") {
-				t = strings.Replace(t, "0", upstr, 1)
-			}
-			_, err = fmt.Fprintln(f, t)
-		} else {
-			_, err = fmt.Fprintln(f, t)
-		}
-		if err != nil {
-			return err
-		}
+
+	b, err := json.Marshal(l.Tasks)
+	if err != nil {
+		fmt.Println("error:", err)
 	}
+	f.WriteString(string(b))
 	return nil
 }
 
@@ -81,66 +135,34 @@ func (l *CloudTasks) CloudAddTask(s string) error {
 		Status:     status,
 		Updatetime: create_time_str,
 	}
-	return utils.Struct2File(task)
+	l.CloudGetAllTaskByFile()
+	l.Tasks = append(l.Tasks, task)
+	return l.CloudTaskToFile()
 }
 
 func (l *CloudTasks) CloudRemoveTask(n int) error {
-	tasks, err := l.CloudGet()
-	if n >= len(tasks) || n < 0 {
-		return errors.New("index out of range")
-	}
-	if err != nil {
-		return err
-	}
-	f, err := os.Create(l.Filename)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-	for i, t := range tasks {
-		if i == n {
-			continue
-		}
-		_, err = fmt.Fprintln(f, t)
-		if err != nil {
-			return err
-		}
-	}
+	// tasks, err := l.CloudGet()
+	// if n >= len(tasks) || n < 0 {
+	// 	return errors.New("index out of range")
+	// }
+	// if err != nil {
+	// 	return err
+	// }
+	// f, err := os.Create(l.Filename)
+	// if err != nil {
+	// 	return err
+	// }
+	// defer f.Close()
+	// for i, t := range tasks {
+	// 	if i == n {
+	// 		continue
+	// 	}
+	// 	_, err = fmt.Fprintln(f, t)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// }
 	return nil
-}
-
-func (l *CloudTasks) CloudGetTask(n int) (string, error) {
-	tasks, err := l.CloudGet()
-	if err != nil {
-		return "", err
-	}
-	if n >= len(tasks) || n < 0 {
-		return "", errors.New("index out of range")
-	}
-	return tasks[n], nil
-}
-
-func (l *CloudTasks) CloudGet() ([]string, error) {
-	f, err := os.Open(l.Filename)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return nil, nil
-		}
-		return nil, err
-	}
-	var tasks []string
-	br := bufio.NewReader(f)
-	for {
-		t, _, err := br.ReadLine()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			return nil, err
-		}
-		tasks = append(tasks, string(t))
-	}
-	return tasks, nil
 }
 
 func (l *CloudTasks) CloudDoneTask(n int) error {
@@ -156,31 +178,31 @@ func (l *CloudTasks) CloudUndoTask(n int) error {
 }
 
 func (l *CloudTasks) CloudCleanTask() error {
-	tasks, err := l.CloudGet()
-	if err != nil {
-		return err
-	}
-	for i, t := range tasks {
-		if strings.HasPrefix(t, "2") {
-			err = l.CloudRemoveTask(i)
-			if err != nil {
-				return err
-			}
-		}
-	}
+	// tasks, err := l.CloudGet()
+	// if err != nil {
+	// 	return err
+	// }
+	// for i, t := range tasks {
+	// 	if strings.HasPrefix(t, "2") {
+	// 		err = l.CloudRemoveTask(i)
+	// 		if err != nil {
+	// 			return err
+	// 		}
+	// 	}
+	// }
 	return nil
 }
 
 func (l *CloudTasks) CloudClearTask() error {
-	tasks, err := l.CloudGet()
-	if err != nil {
-		return err
-	}
-	for i, _ := range tasks {
-		err = l.CloudRemoveTask(i)
-		if err != nil {
-			return err
-		}
-	}
+	// tasks, err := l.CloudGet()
+	// if err != nil {
+	// 	return err
+	// }
+	// for i, _ := range tasks {
+	// 	err = l.CloudRemoveTask(i)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// }
 	return nil
 }
