@@ -8,7 +8,7 @@ import (
 	"github.com/jack-zh/ztodo/utils"
 	"io"
 	"os"
-	// "strings"
+	"strconv"
 	"time"
 )
 
@@ -208,6 +208,45 @@ func (l *CloudTasks) CloudClearTask() error {
 }
 
 func (l *CloudTasks) CloudTasksPrint(i int) {
-	fmt.Println("---")
-	fmt.Println(l)
+	if i == -1 {
+		for ti := 0; ti < len(l.Tasks); ti++ {
+			task := l.Tasks[ti]
+			fmt.Printf("%-3s: [%6s] [%s] %s\n", strconv.Itoa(ti+1), task.Status, task.Updatetime, task.Task)
+		}
+	} else {
+		if i <= len(l.Tasks) && i > 0 {
+			task := l.Tasks[i-1]
+			fmt.Printf("%-3s: [%6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
+		}
+	}
+}
+
+func (l *CloudTasks) CloudTasksPrintVerbose(i int) {
+	if i == -1 {
+		for ti := 0; ti < len(l.Tasks); ti++ {
+			task := l.Tasks[ti]
+			fmt.Printf("%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n----------------------------------------\n",
+				"token", task.Token,
+				"num", strconv.Itoa(ti+1),
+				"task", task.Task,
+				"status", task.Status,
+				"create time", task.Createtime,
+				"doing time", task.Doingtime,
+				"done time", task.Donetime,
+				"update time", task.Updatetime)
+		}
+	} else {
+		if i <= len(l.Tasks) && i > 0 {
+			task := l.Tasks[i-1]
+			fmt.Printf("%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n----------------------------------------\n",
+				"token", task.Token,
+				"num", strconv.Itoa(i),
+				"task", task.Task,
+				"status", task.Status,
+				"create time", task.Createtime,
+				"doing time", task.Doingtime,
+				"done time", task.Donetime,
+				"update time", task.Updatetime)
+		}
+	}
 }

@@ -168,16 +168,37 @@ func main() {
 		}
 
 	case a == "list" && n == 2:
-		i, err2 := strconv.Atoi(flag.Arg(1))
-		if err2 != nil {
+		if flag.Arg(1) == "verbose" {
+			err = cloudlist.CloudGetAllTaskByFile()
+			if err == nil {
+				cloudlist.CloudTasksPrintVerbose(-1)
+			}
+		} else {
+			i, err2 := strconv.Atoi(flag.Arg(1))
+			if err2 != nil {
+				fmt.Fprint(os.Stdout, usage)
+				break
+			}
+			err = cloudlist.CloudGetAllTaskByFile()
+			if err == nil {
+				cloudlist.CloudTasksPrint(i)
+			}
+		}
+	case a == "list" && n == 3:
+		if flag.Arg(2) == "verbose" {
+			i, err2 := strconv.Atoi(flag.Arg(1))
+			if err2 != nil {
+				fmt.Fprint(os.Stdout, usage)
+				break
+			}
+			err = cloudlist.CloudGetAllTaskByFile()
+			if err == nil {
+				cloudlist.CloudTasksPrintVerbose(i)
+			}
+		} else {
 			fmt.Fprint(os.Stdout, usage)
-			break
 		}
-		var task string
-		task, err = simplelist.SimpleGetTask(i - 1)
-		if err == nil {
-			printSimpleTask(task, strconv.Itoa(i))
-		}
+
 	case a == "rm" && n == 2:
 		i, err2 := strconv.Atoi(flag.Arg(1))
 		if err2 != nil {
