@@ -12,18 +12,18 @@ import (
 )
 
 type CloudTask struct {
-	task       string
-	token      string
-	createtime string
-	doingtime  string
-	updatetime string
-	donetime   string
-	status     string
+	Task       string `json:"task"`
+	Token      string `json:"token"`
+	Createtime string `json:"createtime"`
+	Doingtime  string `json:"doingtime"`
+	Updatetime string `json:"updatetime"`
+	Donetime   string `json:"donetime"`
+	Status     string `json:"status"`
 }
 
 type CloudTasks struct {
-	filename string
-	tasks    []CloudTask
+	Filename string
+	Tasks    []CloudTask
 }
 
 func CloudNewList(filename string) *CloudTasks {
@@ -38,7 +38,7 @@ func (l *CloudTasks) CloudUpdateTask(n int, upstr string) error {
 	if n >= len(tasks) || n < 0 {
 		return errors.New("index out of range")
 	}
-	f, err := os.Create(l.filename)
+	f, err := os.Create(l.Filename)
 	if err != nil {
 		return err
 	}
@@ -73,13 +73,13 @@ func (l *CloudTasks) CloudAddTask(s string) error {
 	task_str := s
 	token, _ := utils.GenUUID()
 	task := CloudTask{
-		task:       task_str,
-		token:      token,
-		createtime: create_time_str,
-		doingtime:  doing_time_str,
-		donetime:   done_time_str,
-		status:     status,
-		updatetime: create_time_str,
+		Task:       task_str,
+		Token:      token,
+		Createtime: create_time_str,
+		Doingtime:  doing_time_str,
+		Donetime:   done_time_str,
+		Status:     status,
+		Updatetime: create_time_str,
 	}
 	return utils.Struct2File(task)
 }
@@ -92,7 +92,7 @@ func (l *CloudTasks) CloudRemoveTask(n int) error {
 	if err != nil {
 		return err
 	}
-	f, err := os.Create(l.filename)
+	f, err := os.Create(l.Filename)
 	if err != nil {
 		return err
 	}
@@ -121,7 +121,7 @@ func (l *CloudTasks) CloudGetTask(n int) (string, error) {
 }
 
 func (l *CloudTasks) CloudGet() ([]string, error) {
-	f, err := os.Open(l.filename)
+	f, err := os.Open(l.Filename)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return nil, nil
