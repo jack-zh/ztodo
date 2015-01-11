@@ -4,7 +4,7 @@ A simple command-line todo list written in Go.
 
 ## Version
 
-0.4
+0.4.4
 
 ## Installation:
 

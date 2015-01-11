@@ -13,7 +13,7 @@ import (
 
 var noAct = errors.New("error")
 
-var version = "ztodo version 0.4 (2015-01-05 build)"
+var version = "ztodo version 0.4.4 (2015-01-11 build)"
 
 var userconfig_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "userconfig.json")
 var cloud_work_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "worktasks.json")
