@@ -105,17 +105,32 @@ func (l *CloudTasks) CloudGetAllTaskByFile() error {
 }
 
 func (l *CloudTasks) CloudTaskToFile() error {
-	f, err := os.Create(l.WorkFilename)
+	// work tasks json to file
+	workfd, err := os.Create(l.WorkFilename)
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer workfd.Close()
 
-	b, err := json.Marshal(l.WorkTasks)
+	workjsonstr, err := json.Marshal(l.WorkTasks)
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-	f.WriteString(string(b))
+	workfd.WriteString(string(workjsonstr))
+
+	// backup task json to file
+	backfd, err := os.Create(l.BackupFilename)
+	if err != nil {
+		return err
+	}
+	defer backfd.Close()
+
+	backupjsonstr, err := json.Marshal(l.BackupTasks)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	backfd.WriteString(string(backupjsonstr))
+
 	return nil
 }
 
@@ -141,13 +156,16 @@ func (l *CloudTasks) CloudAddTask(s string) error {
 }
 
 func (l *CloudTasks) CloudRmOneTask(n int) {
+	task := l.WorkTasks[n-1]
+	task.Updatetime = time.Now().Format("2006-01-02 15:04:05")
+	l.BackupTasks = append(l.BackupTasks, task)
 	l.WorkTasks = append(l.WorkTasks[:n], l.WorkTasks[n+1:]...)
 }
 
 func (l *CloudTasks) CloudRemoveTask(n int) error {
 	l.CloudGetAllTaskByFile()
 	if n <= len(l.WorkTasks) && n > 0 {
-		l.CloudRmOneTask(n - 1)
+		l.CloudRmOneTask(n)
 		return l.CloudTaskToFile()
 	} else {
 		return errors.New("index out of range")
