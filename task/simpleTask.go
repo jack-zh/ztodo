@@ -141,27 +141,29 @@ func (l *SimpleList) SimpleUndoTask(n int) error {
 
 func (l *SimpleList) SimpleCleanTask() error {
 	tasks, err := l.SimpleGet()
+	var seti []int
 	if err != nil {
 		return err
 	}
 	for i, t := range tasks {
 		if strings.HasPrefix(t, "2") {
-			err = l.SimpleRemoveTask(i)
-			if err != nil {
-				return err
-			}
+			seti = append(seti, i)
 		}
+	}
+	for n := len(seti) - 1; n >= 0; n-- {
+		l.SimpleRemoveTask(seti[n])
 	}
 	return nil
 }
 
 func (l *SimpleList) SimpleClearTask() error {
 	tasks, err := l.SimpleGet()
+	lentasks := len(tasks)
 	if err != nil {
 		return err
 	}
 	for i, _ := range tasks {
-		err = l.SimpleRemoveTask(i)
+		err = l.SimpleRemoveTask(lentasks - i - 1)
 		if err != nil {
 			return err
 		}

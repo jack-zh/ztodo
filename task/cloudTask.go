@@ -70,7 +70,7 @@ func (l *CloudTasks) CloudGetUserConfigByFile() error {
 }
 
 func (l *CloudTasks) CloudSaveUserConfigToFile() error {
-	fd, err := os.Create(l.UserConfig)
+	fd, err := os.Create(l.UserConfigFilename)
 	if err != nil {
 		return err
 	}
@@ -210,7 +210,7 @@ func (l *CloudTasks) CloudAddTask(s string) error {
 }
 
 func (l *CloudTasks) CloudRmOneTask(n int) {
-	task := l.WorkTasks[n-1]
+	task := l.WorkTasks[n]
 	task.Updatetime = time.Now().Format("2006-01-02 15:04:05")
 	l.BackupTasks = append(l.BackupTasks, task)
 	l.WorkTasks = append(l.WorkTasks[:n], l.WorkTasks[n+1:]...)
@@ -220,7 +220,7 @@ func (l *CloudTasks) CloudRemoveTask(n int) error {
 	l.CloudGetAllWorkTaskByFile()
 	l.CloudGetAllBackupTaskByFile()
 	if n <= len(l.WorkTasks) && n > 0 {
-		l.CloudRmOneTask(n)
+		l.CloudRmOneTask(n - 1)
 		return l.CloudTaskToFile()
 	} else {
 		return errors.New("index out of range")
@@ -242,7 +242,7 @@ func (l *CloudTasks) CloudUndoTask(n int) error {
 func (l *CloudTasks) CloudCleanTask() error {
 	l.CloudGetAllWorkTaskByFile()
 	l.CloudGetAllBackupTaskByFile()
-	for n := 0; n < len(l.WorkTasks); n++ {
+	for n := len(l.WorkTasks) - 1; n >= 0; n-- {
 		if l.WorkTasks[n].Status == "Done" {
 			l.CloudRmOneTask(n)
 		}
@@ -253,7 +253,7 @@ func (l *CloudTasks) CloudCleanTask() error {
 func (l *CloudTasks) CloudClearTask() error {
 	l.CloudGetAllWorkTaskByFile()
 	l.CloudGetAllBackupTaskByFile()
-	for n := 0; n < len(l.WorkTasks); n++ {
+	for n := len(l.WorkTasks) - 1; n >= 0; n-- {
 		l.CloudRmOneTask(n)
 	}
 	return l.CloudTaskToFile()
