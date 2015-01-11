@@ -31,51 +31,14 @@ func CloudNewList(filename string) *CloudTasks {
 	return &CloudTasks{filename, nil}
 }
 
-func (l *CloudTasks) CloudUpdateTask(n int, upstr string) error {
-	// tasks, err := l.CloudGet()
-	// if err != nil {
-	// 	return err
-	// }
-	// if n >= len(tasks) || n < 0 {
-	// 	return errors.New("index out of range")
-	// }
-	// f, err := os.Create(l.Filename)
-	// if err != nil {
-	// 	return err
-	// }
-	// defer f.Close()
-	// for i, t := range tasks {
-	// 	if i == n {
-	// 		if strings.HasPrefix(t, "1") {
-	// 			t = strings.Replace(t, "1", upstr, 1)
-	// 		}
-	// 		if strings.HasPrefix(t, "2") {
-	// 			t = strings.Replace(t, "2", upstr, 1)
-	// 		}
-	// 		if strings.HasPrefix(t, "0") {
-	// 			t = strings.Replace(t, "0", upstr, 1)
-	// 		}
-	// 		_, err = fmt.Fprintln(f, t)
-	// 	} else {
-	// 		_, err = fmt.Fprintln(f, t)
-	// 	}
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// }
-	return nil
-}
-
-func (l *CloudTasks) CloudGetTask(n int) (string, error) {
-	// tasks, err := l.CloudGet()
-	// if err != nil {
-	// 	return "", err
-	// }
-	// if n >= len(tasks) || n < 0 {
-	// 	return "", errors.New("index out of range")
-	// }
-	// return tasks[n], nil
-	return "nil", nil
+func (l *CloudTasks) CloudUpdateTaskStatus(n int, upstr string) error {
+	l.CloudGetAllTaskByFile()
+	if n > 0 && n <= len(l.Tasks) {
+		l.Tasks[n-1].Status = upstr
+	} else {
+		return errors.New("index out of range")
+	}
+	return l.CloudTaskToFile()
 }
 
 func (l *CloudTasks) CloudGetAllTaskByFile() error {
@@ -140,83 +103,56 @@ func (l *CloudTasks) CloudAddTask(s string) error {
 	return l.CloudTaskToFile()
 }
 
+func (l *CloudTasks) CloudRmOneTask(n int) {
+	l.Tasks = append(l.Tasks[:n], l.Tasks[n+1:]...)
+}
+
 func (l *CloudTasks) CloudRemoveTask(n int) error {
-	// tasks, err := l.CloudGet()
-	// if n >= len(tasks) || n < 0 {
-	// 	return errors.New("index out of range")
-	// }
-	// if err != nil {
-	// 	return err
-	// }
-	// f, err := os.Create(l.Filename)
-	// if err != nil {
-	// 	return err
-	// }
-	// defer f.Close()
-	// for i, t := range tasks {
-	// 	if i == n {
-	// 		continue
-	// 	}
-	// 	_, err = fmt.Fprintln(f, t)
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// }
-	return nil
+	l.CloudGetAllTaskByFile()
+	if n <= len(l.Tasks) && n > 0 {
+		l.CloudRmOneTask(n - 1)
+		return l.CloudTaskToFile()
+	} else {
+		return errors.New("index out of range")
+	}
 }
 
 func (l *CloudTasks) CloudDoneTask(n int) error {
-	return l.CloudUpdateTask(n, "2")
+	return l.CloudUpdateTaskStatus(n, "Done")
 }
 
 func (l *CloudTasks) CloudDoingTask(n int) error {
-	return l.CloudUpdateTask(n, "1")
+	return l.CloudUpdateTaskStatus(n, "Doing")
 }
 
 func (l *CloudTasks) CloudUndoTask(n int) error {
-	return l.CloudUpdateTask(n, "0")
+	return l.CloudUpdateTaskStatus(n, "Future")
 }
 
 func (l *CloudTasks) CloudCleanTask() error {
-	// tasks, err := l.CloudGet()
-	// if err != nil {
-	// 	return err
-	// }
-	// for i, t := range tasks {
-	// 	if strings.HasPrefix(t, "2") {
-	// 		err = l.CloudRemoveTask(i)
-	// 		if err != nil {
-	// 			return err
-	// 		}
-	// 	}
-	// }
-	return nil
+	for n := 0; n < len(l.Tasks); n++ {
+		if l.Tasks[n].Status == "Done" {
+			l.CloudRmOneTask(n)
+		}
+	}
+	return l.CloudTaskToFile()
 }
 
 func (l *CloudTasks) CloudClearTask() error {
-	// tasks, err := l.CloudGet()
-	// if err != nil {
-	// 	return err
-	// }
-	// for i, _ := range tasks {
-	// 	err = l.CloudRemoveTask(i)
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// }
-	return nil
+	l.Tasks = nil
+	return l.CloudTaskToFile()
 }
 
 func (l *CloudTasks) CloudTasksPrint(i int) {
 	if i == -1 {
 		for ti := 0; ti < len(l.Tasks); ti++ {
 			task := l.Tasks[ti]
-			fmt.Printf("%-3s: [%6s] [%s] %s\n", strconv.Itoa(ti+1), task.Status, task.Updatetime, task.Task)
+			fmt.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(ti+1), task.Status, task.Updatetime, task.Task)
 		}
 	} else {
 		if i <= len(l.Tasks) && i > 0 {
 			task := l.Tasks[i-1]
-			fmt.Printf("%-3s: [%6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
+			fmt.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
 		}
 	}
 }

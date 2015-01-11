@@ -205,13 +205,12 @@ func main() {
 			fmt.Fprint(os.Stdout, usage)
 			break
 		}
-		err = simplelist.SimpleRemoveTask(i - 1)
+		err = cloudlist.CloudRemoveTask(i)
 		if err != nil {
 			break
 		}
 	case a == "add" && n > 1:
 		t := strings.Join(flag.Args()[1:], " ")
-		err = simplelist.SimpleAddTask(t)
 		err = cloudlist.CloudAddTask(t)
 
 	case a == "doing" && n == 2:
@@ -220,7 +219,7 @@ func main() {
 			fmt.Fprint(os.Stdout, usage)
 			break
 		}
-		err = simplelist.SimpleDoingTask(i - 1)
+		err = cloudlist.CloudDoingTask(i)
 
 	case a == "done" && n == 2:
 		i, err4 := strconv.Atoi(flag.Args()[1])
@@ -228,18 +227,18 @@ func main() {
 			fmt.Fprint(os.Stdout, usage)
 			break
 		}
-		err = simplelist.SimpleDoneTask(i - 1)
+		err = cloudlist.CloudDoneTask(i)
 	case a == "undo" && n == 2:
 		i, err5 := strconv.Atoi(flag.Args()[1])
 		if err5 != nil {
 			fmt.Fprint(os.Stdout, usage)
 			break
 		}
-		err = simplelist.SimpleUndoTask(i - 1)
+		err = cloudlist.CloudUndoTask(i)
 	case a == "clean" && n == 1:
-		err = simplelist.SimpleCleanTask()
+		err = cloudlist.CloudCleanTask()
 	case a == "clear" && n == 1:
-		err = simplelist.SimpleClearTask()
+		err = cloudlist.CloudClearTask()
 	default:
 		fmt.Fprint(os.Stdout, usage)
 	}
