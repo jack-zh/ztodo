@@ -69,6 +69,21 @@ func (l *CloudTasks) CloudGetUserConfigByFile() error {
 	return nil
 }
 
+func (l *CloudTasks) CloudSaveUserConfigToFile() error {
+	fd, err := os.Create(l.UserConfig)
+	if err != nil {
+		return err
+	}
+	defer fd.Close()
+
+	jsonstr, err := json.Marshal(l.UserConfig)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	fd.WriteString(string(jsonstr))
+	return nil
+}
+
 func (l *CloudTasks) CloudUpdateTaskStatus(n int, upstr string) error {
 	l.CloudGetAllWorkTaskByFile()
 	if n > 0 && n <= len(l.WorkTasks) {
