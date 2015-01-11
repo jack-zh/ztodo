@@ -19,7 +19,7 @@
       ...
     }
 
-### 1.2 taskJson
+### 1.2 worktaskJson
 
     [
         {
@@ -27,7 +27,7 @@
             "token":"tokenstr1",
             "createtime": "2014-12-31 23:59:56",
             "doingtime": "2014-12-31 23:59:59",
-            "donetime":null,
+            "donetime":"2006-01-02 15:04:05",
             "updatetime":"2014-12-31 23:59:57",
             "status":"doing"
         },
@@ -37,7 +37,7 @@
             "createtime": "2014-12-31 23:59:56",
             "doingtime": "2014-12-31 23:59:59",
             "updatetime":"2014-12-31 23:59:57",
-            "donetime":null,
+            "donetime":"2006-01-02 15:04:05",
             "status":"doing"
         }
         ...
@@ -51,14 +51,14 @@
             "task": "--- task1",
             "createtime": "2014-12-31 23:59:56",
             "doingtime": "2014-12-31 23:59:58",
-            "donetime":null
+            "donetime":"2006-01-02 15:04:05"
         },
         {
             "token":"tokenstr2",
             "task": "--- task2",
             "createtime": "2014-12-31 23:59:57",
             "doingtime": "2014-12-31 23:59:59",
-            "donetime":null
+            "donetime":"2006-01-02 15:04:05"
         },
         ...
     ]
@@ -75,7 +75,7 @@
         "password":"password"
     }
 
-### 2.2 taskJson
+### 2.2 worktaskJson
 
     [
         {
@@ -84,6 +84,7 @@
             "createtime":"2014-12-31 23:59:57",
             "doingtime":"2014-12-31 23:59:58",
             "donetime":"2014-12-31 23:59:59",
+            "updatetime":"2014-12-31 23:59:59",
             "status":"doing"
         },
         {
@@ -92,6 +93,31 @@
             "createtime":"2014-12-31 23:58:57",
             "doingtime":"2014-12-31 23:58:58",
             "donetime":"2014-12-31 23:58:59",
+            "updatetime":"2014-12-31 23:59:59",
+            "status":"doing"
+        }
+        ...
+    ]
+
+### 2.2 historytaskJson
+
+    [
+        {
+            "task":"---task1...",
+            "token":""tokenstr1,            
+            "createtime":"2014-12-31 23:59:57",
+            "doingtime":"2014-12-31 23:59:58",
+            "donetime":"2014-12-31 23:59:59",
+            "updatetime":"2014-12-31 23:59:59",
+            "status":"doing"
+        },
+        {
+            "task":"---task2...",
+            "token":""tokenstr2,
+            "createtime":"2014-12-31 23:58:57",
+            "doingtime":"2014-12-31 23:58:58",
+            "donetime":"2014-12-31 23:58:59",
+            "updatetime":"2014-12-31 23:59:59",
             "status":"doing"
         }
         ...
