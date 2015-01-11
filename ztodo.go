@@ -16,7 +16,8 @@ var noAct = errors.New("error")
 var version = "ztodo version 0.4 (2015-01-05 build)"
 
 var userconfig_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "userconfig.json")
-var cloud_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "tasks.json")
+var cloud_work_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "worktasks.json")
+var cloud_backup_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "backuptasks.json")
 var simple_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "simpletasks")
 
 const usage = `Usage:
@@ -81,7 +82,7 @@ func main() {
 	flag.Parse()
 
 	simplelist := task.SimpleNewList(simple_tasks_filename)
-	cloudlist := task.CloudNewList(cloud_tasks_filename)
+	cloudlist := task.CloudNewList(cloud_work_tasks_filename, cloud_backup_tasks_filename)
 	a, n := flag.Arg(0), len(flag.Args())
 
 	a = strings.ToLower(a)
