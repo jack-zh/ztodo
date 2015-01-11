@@ -22,19 +22,55 @@ type CloudTask struct {
 	Status     string `json:"status"`
 }
 
-type CloudTasks struct {
-	WorkFilename   string
-	WorkTasks      []CloudTask
-	BackupFilename string
-	BackupTasks    []CloudTask
+type UserConfig struct {
+	Usertoken string `json:"usertoken"`
+	Pushtime  string `json:"pushtime"`
+	Pushtoken string `json:"pushtoken"`
+	Username  string `json:"username"`
+	Password  string `json:"password"`
 }
 
-func CloudNewList(workfilename string, backfilename string) *CloudTasks {
-	return &CloudTasks{workfilename, nil, backfilename, nil}
+type CloudTasks struct {
+	WorkFilename       string
+	WorkTasks          []CloudTask
+	BackupFilename     string
+	BackupTasks        []CloudTask
+	UserConfigFilename string
+	UserConfig         UserConfig
+}
+
+func CloudNewList(workfilename string, backfilename string, userconfig_filename string) *CloudTasks {
+	return &CloudTasks{workfilename, nil, backfilename, nil, userconfig_filename, UserConfig{}}
+}
+
+func (l *CloudTasks) CloudGetUserConfigByFile() error {
+	fd, err := os.Open(l.UserConfigFilename)
+	if err != nil {
+		return nil
+	}
+	str := ""
+	br := bufio.NewReader(fd)
+	for {
+		linestr, _, readerr := br.ReadLine()
+		if readerr == io.EOF {
+			break
+		}
+		if readerr != nil {
+			return readerr
+		}
+		str += string(linestr)
+	}
+
+	userconfig := &l.UserConfig
+	jsonerr := json.Unmarshal([]byte(str), userconfig)
+	if jsonerr != nil {
+		return jsonerr
+	}
+	return nil
 }
 
 func (l *CloudTasks) CloudUpdateTaskStatus(n int, upstr string) error {
-	l.CloudGetAllTaskByFile()
+	l.CloudGetAllWorkTaskByFile()
 	if n > 0 && n <= len(l.WorkTasks) {
 		l.WorkTasks[n-1].Status = upstr
 		time_str := time.Now().Format("2006-01-02 15:04:05")
@@ -53,7 +89,33 @@ func (l *CloudTasks) CloudUpdateTaskStatus(n int, upstr string) error {
 	return l.CloudTaskToFile()
 }
 
-func (l *CloudTasks) CloudGetAllTaskByFile() error {
+func (l *CloudTasks) CloudGetAllBackupTaskByFile() error {
+	// backup task get by json str
+	backupfd, backuperropenfile := os.Open(l.BackupFilename)
+	backup_tasks_string := ""
+	if backuperropenfile == nil {
+		backupbr := bufio.NewReader(backupfd)
+		for {
+			backupstr, _, backuperr := backupbr.ReadLine()
+			if backuperr == io.EOF {
+				break
+			}
+			if backuperr != nil {
+				return backuperr
+			}
+			backup_tasks_string += string(backupstr)
+		}
+
+		backuptasks := &l.BackupTasks
+		backupjsonunmarshalerr := json.Unmarshal([]byte(backup_tasks_string), backuptasks)
+		if backupjsonunmarshalerr != nil {
+			return backupjsonunmarshalerr
+		}
+	}
+	return nil
+}
+
+func (l *CloudTasks) CloudGetAllWorkTaskByFile() error {
 
 	// work task get by json str
 	workfd, workerropenfile := os.Open(l.WorkFilename)
@@ -76,29 +138,6 @@ func (l *CloudTasks) CloudGetAllTaskByFile() error {
 		if workjsonunmarshalerr != nil {
 
 			return workjsonunmarshalerr
-		}
-	}
-
-	// backup task get by json str
-	backupfd, backuperropenfile := os.Open(l.BackupFilename)
-	backup_tasks_string := ""
-	if backuperropenfile == nil {
-		backupbr := bufio.NewReader(backupfd)
-		for {
-			backupstr, _, backuperr := backupbr.ReadLine()
-			if backuperr == io.EOF {
-				break
-			}
-			if backuperr != nil {
-				return backuperr
-			}
-			backup_tasks_string += string(backupstr)
-		}
-
-		backuptasks := &l.BackupTasks
-		backupjsonunmarshalerr := json.Unmarshal([]byte(backup_tasks_string), backuptasks)
-		if backupjsonunmarshalerr != nil {
-			return backupjsonunmarshalerr
 		}
 	}
 	return nil
@@ -150,7 +189,7 @@ func (l *CloudTasks) CloudAddTask(s string) error {
 		Status:     status,
 		Updatetime: create_time_str,
 	}
-	l.CloudGetAllTaskByFile()
+	l.CloudGetAllWorkTaskByFile()
 	l.WorkTasks = append(l.WorkTasks, task)
 	return l.CloudTaskToFile()
 }
@@ -163,7 +202,8 @@ func (l *CloudTasks) CloudRmOneTask(n int) {
 }
 
 func (l *CloudTasks) CloudRemoveTask(n int) error {
-	l.CloudGetAllTaskByFile()
+	l.CloudGetAllWorkTaskByFile()
+	l.CloudGetAllBackupTaskByFile()
 	if n <= len(l.WorkTasks) && n > 0 {
 		l.CloudRmOneTask(n)
 		return l.CloudTaskToFile()
@@ -185,6 +225,8 @@ func (l *CloudTasks) CloudUndoTask(n int) error {
 }
 
 func (l *CloudTasks) CloudCleanTask() error {
+	l.CloudGetAllWorkTaskByFile()
+	l.CloudGetAllBackupTaskByFile()
 	for n := 0; n < len(l.WorkTasks); n++ {
 		if l.WorkTasks[n].Status == "Done" {
 			l.CloudRmOneTask(n)
@@ -194,7 +236,11 @@ func (l *CloudTasks) CloudCleanTask() error {
 }
 
 func (l *CloudTasks) CloudClearTask() error {
-	l.WorkTasks = nil
+	l.CloudGetAllWorkTaskByFile()
+	l.CloudGetAllBackupTaskByFile()
+	for n := 0; n < len(l.WorkTasks); n++ {
+		l.CloudRmOneTask(n)
+	}
 	return l.CloudTaskToFile()
 }
 

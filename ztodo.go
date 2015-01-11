@@ -82,7 +82,7 @@ func main() {
 	flag.Parse()
 
 	simplelist := task.SimpleNewList(simple_tasks_filename)
-	cloudlist := task.CloudNewList(cloud_work_tasks_filename, cloud_backup_tasks_filename)
+	cloudlist := task.CloudNewList(cloud_work_tasks_filename, cloud_backup_tasks_filename, userconfig_filename)
 	a, n := flag.Arg(0), len(flag.Args())
 
 	a = strings.ToLower(a)
@@ -163,14 +163,14 @@ func main() {
 		err = simplelist.SimpleClearTask()
 
 	case a == "list" && n == 1:
-		err = cloudlist.CloudGetAllTaskByFile()
+		err = cloudlist.CloudGetAllWorkTaskByFile()
 		if err == nil {
 			cloudlist.CloudTasksPrint(-1)
 		}
 
 	case a == "list" && n == 2:
 		if flag.Arg(1) == "verbose" {
-			err = cloudlist.CloudGetAllTaskByFile()
+			err = cloudlist.CloudGetAllWorkTaskByFile()
 			if err == nil {
 				cloudlist.CloudTasksPrintVerbose(-1)
 			}
@@ -180,7 +180,7 @@ func main() {
 				fmt.Fprint(os.Stdout, usage)
 				break
 			}
-			err = cloudlist.CloudGetAllTaskByFile()
+			err = cloudlist.CloudGetAllWorkTaskByFile()
 			if err == nil {
 				cloudlist.CloudTasksPrint(i)
 			}
@@ -192,7 +192,7 @@ func main() {
 				fmt.Fprint(os.Stdout, usage)
 				break
 			}
-			err = cloudlist.CloudGetAllTaskByFile()
+			err = cloudlist.CloudGetAllWorkTaskByFile()
 			if err == nil {
 				cloudlist.CloudTasksPrintVerbose(i)
 			}

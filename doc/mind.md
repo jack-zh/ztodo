@@ -66,7 +66,7 @@
 # 2. For Client
 
 ### 2.1 Global json
-    
+
     {
         "usertoken":"tokenStr",
         "pushtime":"2014-12-31 23:59:57",
