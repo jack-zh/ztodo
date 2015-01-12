@@ -293,13 +293,41 @@ func printTask(task CloudTask, i int) {
 }
 
 func printTaskVerbose(task CloudTask, i int) {
-	fmt.Printf("%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n----------------------------------------\n",
-		"token", task.Token,
-		"num", strconv.Itoa(i),
-		"task", task.Task,
-		"status", task.Status,
-		"create time", task.Createtime,
-		"doing time", task.Doingtime,
-		"done time", task.Donetime,
-		"update time", task.Updatetime)
+	if task.Doingtime != "2006-01-02 15:04:05" && task.Donetime != "2006-01-02 15:04:05" {
+		fmt.Printf("%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n----------------------------------------\n",
+			"token", task.Token,
+			"num", strconv.Itoa(i),
+			"task", task.Task,
+			"status", task.Status,
+			"create time", task.Createtime,
+			"doing time", task.Doingtime,
+			"done time", task.Donetime,
+			"update time", task.Updatetime)
+	} else if task.Doingtime == "2006-01-02 15:04:05" && task.Donetime != "2006-01-02 15:04:05" {
+		fmt.Printf("%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n----------------------------------------\n",
+			"token", task.Token,
+			"num", strconv.Itoa(i),
+			"task", task.Task,
+			"status", task.Status,
+			"create time", task.Createtime,
+			"done time", task.Donetime,
+			"update time", task.Updatetime)
+	} else if task.Doingtime != "2006-01-02 15:04:05" && task.Donetime == "2006-01-02 15:04:05" {
+		fmt.Printf("%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n----------------------------------------\n",
+			"token", task.Token,
+			"num", strconv.Itoa(i),
+			"task", task.Task,
+			"status", task.Status,
+			"create time", task.Createtime,
+			"doing time", task.Doingtime,
+			"update time", task.Updatetime)
+	} else {
+		fmt.Printf("%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n----------------------------------------\n",
+			"token", task.Token,
+			"num", strconv.Itoa(i),
+			"task", task.Task,
+			"status", task.Status,
+			"create time", task.Createtime,
+			"update time", task.Updatetime)
+	}
 }
