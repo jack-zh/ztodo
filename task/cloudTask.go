@@ -263,12 +263,12 @@ func (l *CloudTasks) CloudTasksPrint(i int) {
 	if i == -1 {
 		for ti := 0; ti < len(l.WorkTasks); ti++ {
 			task := l.WorkTasks[ti]
-			fmt.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(ti+1), task.Status, task.Updatetime, task.Task)
+			printTask(task, ti+1)
 		}
 	} else {
 		if i <= len(l.WorkTasks) && i > 0 {
 			task := l.WorkTasks[i-1]
-			fmt.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
+			printTask(task, i)
 		}
 	}
 }
@@ -277,28 +277,29 @@ func (l *CloudTasks) CloudTasksPrintVerbose(i int) {
 	if i == -1 {
 		for ti := 0; ti < len(l.WorkTasks); ti++ {
 			task := l.WorkTasks[ti]
-			fmt.Printf("%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n----------------------------------------\n",
-				"token", task.Token,
-				"num", strconv.Itoa(ti+1),
-				"task", task.Task,
-				"status", task.Status,
-				"create time", task.Createtime,
-				"doing time", task.Doingtime,
-				"done time", task.Donetime,
-				"update time", task.Updatetime)
+			printTaskVerbose(task, ti+1)
 		}
+
 	} else {
 		if i <= len(l.WorkTasks) && i > 0 {
 			task := l.WorkTasks[i-1]
-			fmt.Printf("%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n----------------------------------------\n",
-				"token", task.Token,
-				"num", strconv.Itoa(i),
-				"task", task.Task,
-				"status", task.Status,
-				"create time", task.Createtime,
-				"doing time", task.Doingtime,
-				"done time", task.Donetime,
-				"update time", task.Updatetime)
+			printTaskVerbose(task, i)
 		}
 	}
+}
+
+func printTask(task CloudTask, i int) {
+	fmt.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
+}
+
+func printTaskVerbose(task CloudTask, i int) {
+	fmt.Printf("%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n%13s:  %s\n----------------------------------------\n",
+		"token", task.Token,
+		"num", strconv.Itoa(i),
+		"task", task.Task,
+		"status", task.Status,
+		"create time", task.Createtime,
+		"doing time", task.Doingtime,
+		"done time", task.Donetime,
+		"update time", task.Updatetime)
 }
