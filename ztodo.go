@@ -4,12 +4,13 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/jack-zh/ztodo/task"
-	"github.com/jack-zh/ztodo/utils"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"github.com/jack-zh/ztodo/task"
+	"github.com/jack-zh/ztodo/utils"
 )
 
 var noAct = errors.New("error")

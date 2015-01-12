@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/howeyc/gopass"
 )
 
 func RemoveSlice(slice []interface{}, start, end int) []interface{} {
@@ -21,7 +23,7 @@ func Credentials() (string, string) {
 	username, _ := reader.ReadString('\n')
 
 	fmt.Print("Enter Password: ")
-	password, _ := reader.ReadString('\n')
+	password := string(gopass.GetPasswd())
 
 	return strings.TrimSpace(username), strings.TrimSpace(password)
 }
@@ -33,10 +35,10 @@ func CredentialsRetype() (string, string, string) {
 	username, _ := reader.ReadString('\n')
 
 	fmt.Print("Enter Password: ")
-	password, _ := reader.ReadString('\n')
+	password := string(gopass.GetPasswd())
 
 	fmt.Print("Enter Retype Password: ")
-	retypepassword, _ := reader.ReadString('\n')
+	retypepassword := string(gopass.GetPasswd())
 
 	return strings.TrimSpace(username), strings.TrimSpace(password), strings.TrimSpace(retypepassword)
 }
