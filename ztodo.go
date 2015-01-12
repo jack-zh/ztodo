@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/jack-zh/ztodo/task"
+	"github.com/jack-zh/ztodo/utils"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -246,6 +247,42 @@ func main() {
 		err = cloudlist.CloudCleanTask()
 	case a == "clear" && n == 1:
 		err = cloudlist.CloudClearTask()
+
+	case a == "pull" && n == 1:
+		_, _ = cloudlist.CloudPullAll()
+	case a == "pull" && n == 2:
+		i, err6 := strconv.Atoi(flag.Args()[1])
+		if err6 != nil {
+			fmt.Fprint(os.Stdout, usage)
+			break
+		}
+		_, _ = cloudlist.CloudPullOne(i)
+	case a == "push" && n == 1:
+		_ = cloudlist.CloudPushAll()
+	case a == "push" && n == 2:
+		i, err7 := strconv.Atoi(flag.Args()[1])
+		if err7 != nil {
+			fmt.Fprint(os.Stdout, usage)
+			break
+		}
+		_ = cloudlist.CloudPushOne(i)
+	case a == "signup" && n == 1:
+		username, password, retypepassword := utils.CredentialsRetype()
+		if password == retypepassword {
+			err = cloudlist.Signup(username, password)
+		} else {
+			err = errors.New("Mismatch")
+		}
+	case a == "login" && n == 1:
+		username, password := utils.Credentials()
+		err = cloudlist.Login(username, password)
+
+	case a == "logout" && n == 1:
+		err = cloudlist.Logout()
+
+	case a == "user" && n == 1:
+		err = cloudlist.ShowUserConfig()
+
 	default:
 		fmt.Fprint(os.Stdout, usage)
 	}
