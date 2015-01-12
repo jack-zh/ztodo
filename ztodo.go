@@ -92,6 +92,12 @@ func main() {
 	if a == "remove" {
 		a = "rm"
 	}
+	if a == "simplels" {
+		a = "simplelist"
+	}
+	if a == "simpleremove" {
+		a = "simplerm"
+	}
 
 	err := noAct
 	switch {
