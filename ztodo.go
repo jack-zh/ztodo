@@ -246,8 +246,8 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		if a != "list" && a != "version" && a != "help" {
-			fmt.Println("\nSuccess!\n")
-		}
+		// if a != "list" && a != "version" && a != "help" {
+		// 	fmt.Println("\nSuccess!\n")
+		// }
 	}
 }
