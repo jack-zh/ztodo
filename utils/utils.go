@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/howeyc/gopass"
+	"github.com/jack-zh/ztodo/zterminal/gopass"
 )
 
 func RemoveSlice(slice []interface{}, start, end int) []interface{} {
