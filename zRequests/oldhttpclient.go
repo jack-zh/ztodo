@@ -1,3 +1,5 @@
+// +build nobuild
+
 package httpclient
 
 import (

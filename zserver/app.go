@@ -1,14 +1,25 @@
 package main
 
 import (
+	"fmt"
 	"github.com/jack-zh/ztodo/zweb"
 )
 
-func signin(ctx *zweb.Context) string {
-	return "signin-->"
+func signup(ctx *zweb.Context) string {
+	return "signup-->"
 }
 
 func login(ctx *zweb.Context) string {
+	for k, v := range ctx.Params {
+		fmt.Println(k, v)
+	}
+	fmt.Println("...")
+
+	// val := ctx.Request.MultipartForm.Value
+	// for k1, v1 := range val {
+	fmt.Println(ctx.Params)
+	// }
+	fmt.Println("...")
 	return "login==>"
 }
 
@@ -41,7 +52,7 @@ func main() {
 	zweb.Get("/getuser/(.*)", getuser)
 	zweb.Get("/pullone/(.*)/(.*)", pullone)
 
-	zweb.Post("/signin", signin)
+	zweb.Post("/signup", signup)
 	zweb.Post("/login", login)
 
 	zweb.Post("/pushall/(.*)", pushall)
