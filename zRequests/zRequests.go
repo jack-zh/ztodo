@@ -1,4 +1,4 @@
-package httpclient
+package zRequests
 
 import (
 	"bufio"
