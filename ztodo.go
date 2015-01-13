@@ -13,16 +13,15 @@ import (
 	"github.com/jack-zh/ztodo/utils"
 )
 
-var noAct = errors.New("error")
-
-const version = "0.4.5"
-const build_time = "2015-01-13"
+var noAct = errors.New("")
 
 var userconfig_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "userconfig.json")
 var cloud_work_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "worktasks.json")
 var cloud_backup_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "backuptasks.json")
 var simple_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "simpletasks")
 
+const version = "0.4.5"
+const build_time = "2015-01-13"
 const usage = `Incorrect Usage.
 
 NAME:
