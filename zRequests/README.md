@@ -122,7 +122,7 @@ res, err := zRequests.Request{
 We think that most of the times the request headers that you use are: ```Host```, ```Content-Type```, ```Accept``` and ```User-Agent```. This is why we decided to make it very easy to set these headers.
 
 ```go
-res, err := Request{
+res, err := zRequests.Request{
     Uri: "http://www.google.com",
     Host: "foobar.com",
     Accept: "application/json",
