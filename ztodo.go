@@ -15,7 +15,8 @@ import (
 
 var noAct = errors.New("error")
 
-var version = "ztodo version 0.4.5 (2015-01-13 build)"
+const version = "0.4.5"
+const build_time = "2015-01-13"
 
 var userconfig_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "userconfig.json")
 var cloud_work_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "worktasks.json")
@@ -31,22 +32,22 @@ USAGE:
    ztodo [global options] command [command options] [arguments...]
 
 VERSION:
-   0.4.5
+   version:` + version + " (" + build_time + ") build" + `
 
 AUTHOR:
   Jack.z - <zzh.coder@qq.com>
 
-COMMANDS: 
+COMMANDS:
 
-	ztodo list|ls        -- Show all tasks
-	ztodo list|ls N      -- Show task N
-	ztodo rm|remove N    -- Remove task N
-	ztodo done N         -- Done task N
-	ztodo undo N         -- Undo task N
-	ztodo doing N        -- Doing task N
-	ztodo clean          -- Rm done task
-	ztodo clear          -- Rm all task
-	ztodo add ...        -- Add task to list
+	ztodo list|ls [verbose]    -- Show all tasks
+	ztodo list|ls N [verbose]  -- Show task N
+	ztodo rm|remove N          -- Remove task N
+	ztodo done N               -- Done task N
+	ztodo undo N               -- Undo task N
+	ztodo doing N              -- Doing task N
+	ztodo clean                -- Rm done task
+	ztodo clear                -- Rm all task
+	ztodo add ...              -- Add task to list
 
 GLOBAL OPTIONS:
 	ztodo version
@@ -114,7 +115,7 @@ func main() {
 	err := noAct
 	switch {
 	case a == "version" && n == 1:
-		fmt.Println(version)
+		fmt.Println("ztodo version " + version + " (" + build_time + ") build")
 		err = nil
 
 	case a == "help" && n == 1:
@@ -297,12 +298,10 @@ func main() {
 	default:
 		fmt.Fprint(os.Stdout, usage)
 		err = nil
+		os.Exit(1)
 	}
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		// if a != "list" && a != "version" && a != "help" {
-		// 	fmt.Println("\nSuccess!\n")
-		// }
+		os.Exit(1)
 	}
 }
