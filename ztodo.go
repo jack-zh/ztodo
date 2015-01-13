@@ -15,34 +15,44 @@ import (
 
 var noAct = errors.New("error")
 
-var version = "ztodo version 0.4.4 (2015-01-11 build)"
+var version = "ztodo version 0.4.5 (2015-01-13 build)"
 
 var userconfig_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "userconfig.json")
 var cloud_work_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "worktasks.json")
 var cloud_backup_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "backuptasks.json")
 var simple_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "simpletasks")
 
-const usage = `Usage:
+const usage = `Incorrect Usage.
+
+NAME:
+   ztodo - a command line todo list!
+
+USAGE:
+   ztodo [global options] command [command options] [arguments...]
+
+VERSION:
+   0.4.5
+
+AUTHOR:
+  Jack.z - <zzh.coder@qq.com>
+
+COMMANDS: 
+
+	ztodo list|ls        -- Show all tasks
+	ztodo list|ls N      -- Show task N
+	ztodo rm|remove N    -- Remove task N
+	ztodo done N         -- Done task N
+	ztodo undo N         -- Undo task N
+	ztodo doing N        -- Doing task N
+	ztodo clean          -- Rm done task
+	ztodo clear          -- Rm all task
+	ztodo add ...        -- Add task to list
+
+GLOBAL OPTIONS:
 	ztodo version
-		Show ztodo version
-	ztodo list|ls
-		Show all tasks
-	ztodo list|ls N
-		Show task N
-	ztodo rm|remove N
-		Remove task N
-	ztodo done N
-		Done task N
-	ztodo undo N
-		Undo task N
-	ztodo doing N
-		Doing task N
-	ztodo clean
-		Rm done task
-	ztodo clear
-		Rm all task
-	ztodo add ...
-		Add task to list
+		-- Show ztodo version
+	ztodo help
+		-- Show usage
 `
 
 func printSimpleTask(t string, i string) {
@@ -286,6 +296,7 @@ func main() {
 
 	default:
 		fmt.Fprint(os.Stdout, usage)
+		err = nil
 	}
 	if err != nil {
 		fmt.Println(err)
