@@ -49,10 +49,8 @@ COMMANDS:
 	ztodo add ...              -- Add task to list
 
 GLOBAL OPTIONS:
-	ztodo version
-		-- Show ztodo version
-	ztodo help
-		-- Show usage
+	ztodo version              -- Show ztodo version
+	ztodo help                 -- Show usage
 `
 
 func printSimpleTask(t string, i string) {
