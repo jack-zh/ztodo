@@ -1,4 +1,4 @@
-package zRequests
+package zrequests
 
 import (
 	"bufio"

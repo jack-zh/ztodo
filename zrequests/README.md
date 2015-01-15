@@ -1,4 +1,4 @@
-zRequests
+zrequests
 =======
 
 Simple and sane HTTP request library for Go language.
@@ -6,7 +6,7 @@ Simple and sane HTTP request library for Go language.
 
 **Table of Contents**
 
-- [Why zRequests?](#user-content-why-zRequests)
+- [Why zrequests?](#user-content-why-zrequests)
 - [How do I install it?](#user-content-how-do-i-install-it)
 - [What can I do with it?](#user-content-what-can-i-do-with-it)
   - [Making requests with different methods](#user-content-making-requests-with-different-methods)
@@ -25,18 +25,18 @@ Simple and sane HTTP request library for Go language.
  - [TODO:](#user-content-todo)
 
 
-Why zRequests?
+Why zrequests?
 ==========
 
 Go has very nice native libraries that allows you to do lots of cool things. But sometimes those libraries are too low level, which means that to do a simple thing, like an HTTP Request, it takes some time. And if you want to do something as simple as adding a timeout to a request, you will end up writing several lines of code.
 
-This is why we think zRequests is useful. Because you can do all your HTTP requests in a very simple and comprehensive way, while enabling you to do more advanced stuff by giving you access to the native API.
+This is why we think zrequests is useful. Because you can do all your HTTP requests in a very simple and comprehensive way, while enabling you to do more advanced stuff by giving you access to the native API.
 
 How do I install it?
 ====================
 
 ```bash
-go get github.com/jack-zh/ztodo/zRequests
+go get github.com/jack-zh/ztodo/zrequests
 ```
 
 What can I do with it?
@@ -46,10 +46,10 @@ What can I do with it?
 
 #### GET
 ```go
-res, err := zRequests.Request{ Uri: "http://www.google.com" }.Do()
+res, err := zrequests.Request{ Uri: "http://www.google.com" }.Do()
 ```
 
-zRequests default method is GET.
+zrequests default method is GET.
 
 You can also set value to GET method easily
 
@@ -66,7 +66,7 @@ item := Item {
         Fields: "Value",
 }
 
-res, err := zRequests.Request{
+res, err := zrequests.Request{
         Uri: "http://localhost:3000/",
         QueryString: item,
 }.Do()
@@ -82,7 +82,7 @@ item.Set("Limit", 3)
 item.Add("Field", "somefield")
 item.Add("Field", "someotherfield")
 
-res, err := zRequests.Request{
+res, err := zrequests.Request{
         Uri: "http://localhost:3000/",
         QueryString: item,
 }.Do()
@@ -95,7 +95,7 @@ The sample above will send `http://localhost:3000/?limit=3&field=somefield&field
 #### POST
 
 ```go
-res, err := zRequests.Request{ Method: "POST", Uri: "http://www.google.com" }.Do()
+res, err := zrequests.Request{ Method: "POST", Uri: "http://www.google.com" }.Do()
 ```
 
 ## Sending payloads in the Body
@@ -110,7 +110,7 @@ type Item struct {
 
 item := Item{ Id: 1111, Name: "foobar" }
 
-res, err := zRequests.Request{
+res, err := zrequests.Request{
     Method: "POST",
     Uri: "http://www.google.com",
     Body: item,
@@ -122,12 +122,12 @@ res, err := zRequests.Request{
 We think that most of the times the request headers that you use are: ```Host```, ```Content-Type```, ```Accept``` and ```User-Agent```. This is why we decided to make it very easy to set these headers.
 
 ```go
-res, err := zRequests.Request{
+res, err := zrequests.Request{
     Uri: "http://www.google.com",
     Host: "foobar.com",
     Accept: "application/json",
     ContentType: "application/json",
-    UserAgent: "zRequests",
+    UserAgent: "zrequests",
 }.Do()
 ```
 
@@ -143,18 +143,18 @@ req.Do()
 
 ## Setting timeouts
 
-zRequests supports 2 kind of timeouts. A general connection timeout and a request specific one. By default the connection timeout is of 1 second. There is no default for request timeout, which means it will wait forever.
+zrequests supports 2 kind of timeouts. A general connection timeout and a request specific one. By default the connection timeout is of 1 second. There is no default for request timeout, which means it will wait forever.
 
 You can change the connection timeout doing:
 
 ```go
-zRequests.SetConnectTimeout(100 * time.Millisecond)
+zrequests.SetConnectTimeout(100 * time.Millisecond)
 ```
 
 And specify the request timeout doing:
 
 ```go
-res, err := zRequests.Request{
+res, err := zrequests.Request{
     Uri: "http://www.google.com",
     Timeout: 500 * time.Millisecond,
 }.Do()
@@ -162,7 +162,7 @@ res, err := zRequests.Request{
 
 ## Using the Response and Error
 
-zRequests will always return 2 values: a ```Response``` and an ```Error```.
+zrequests will always return 2 values: a ```Response``` and an ```Error```.
 If ```Error``` is not ```nil``` it means that an error happened while doing the request and you shouldn't use the ```Response``` in any way.
 You can check what happened by getting the error message:
 
@@ -172,7 +172,7 @@ fmt.Println(err.Error())
 And to make it easy to know if it was a timeout error, you can ask the error or return it:
 
 ```go
-if serr, ok := err.(*zRequests.Error); ok {
+if serr, ok := err.(*zrequests.Error); ok {
     if serr.Timeout() {
         ...
     }
@@ -192,7 +192,7 @@ Remember that you should **always** close `res.Body` if it's not `nil`
 
 ## Receiving JSON
 
-zRequests will help you to receive and unmarshal JSON.
+zrequests will help you to receive and unmarshal JSON.
 
 ```go
 type Item struct {
@@ -206,58 +206,58 @@ res.Body.FromJsonTo(&item)
 ```
 
 ## Sending/Receiving Compressed Payloads
-zRequests supports gzip, deflate and zlib compression of requests' body and transparent decompression of responses provided they have a correct `Content-Encoding` header.
+zrequests supports gzip, deflate and zlib compression of requests' body and transparent decompression of responses provided they have a correct `Content-Encoding` header.
 
 #####Using gzip compression:
 ```go
-res, err := zRequests.Request{
+res, err := zrequests.Request{
     Method: "POST",
     Uri: "http://www.google.com",
     Body: item,
-    Compression: zRequests.Gzip(),
+    Compression: zrequests.Gzip(),
 }.Do()
 ```
 #####Using deflate compression:
 ```go
-res, err := zRequests.Request{
+res, err := zrequests.Request{
     Method: "POST",
     Uri: "http://www.google.com",
     Body: item,
-    Compression: zRequests.Deflate(),
+    Compression: zrequests.Deflate(),
 }.Do()
 ```
 #####Using zlib compression:
 ```go
-res, err := zRequests.Request{
+res, err := zrequests.Request{
     Method: "POST",
     Uri: "http://www.google.com",
     Body: item,
-    Compression: zRequests.Zlib(),
+    Compression: zrequests.Zlib(),
 }.Do()
 ```
 #####Using compressed responses:
-If servers replies a correct and matching `Content-Encoding` header (gzip requires `Content-Encoding: gzip` and deflate `Content-Encoding: deflate`) zRequests transparently decompresses the response so the previous example should always work:
+If servers replies a correct and matching `Content-Encoding` header (gzip requires `Content-Encoding: gzip` and deflate `Content-Encoding: deflate`) zrequests transparently decompresses the response so the previous example should always work:
 ```go
 type Item struct {
     Id int
     Name string
 }
-res, err := zRequests.Request{
+res, err := zrequests.Request{
     Method: "POST",
     Uri: "http://www.google.com",
     Body: item,
-    Compression: zRequests.Gzip(),
+    Compression: zrequests.Gzip(),
 }.Do()
 var item Item
 res.Body.FromJsonTo(&item)
 ```
-If no `Content-Encoding` header is replied by the server zRequests will return the crude response.
+If no `Content-Encoding` header is replied by the server zrequests will return the crude response.
 
 ## Proxy
-If you need to use a proxy for your requests zRequests supports the standard `http_proxy` env variable as well as manually setting the proxy for each request
+If you need to use a proxy for your requests zrequests supports the standard `http_proxy` env variable as well as manually setting the proxy for each request
 
 ```go
-res, err := zRequests.Request{
+res, err := zrequests.Request{
     Method: "GET",
     Proxy: "http://myproxy:myproxyport",
     Uri: "http://www.google.com",
@@ -267,7 +267,7 @@ res, err := zRequests.Request{
 ### Proxy basic auth is also supported
 
 ```go
-res, err := zRequests.Request{
+res, err := zrequests.Request{
     Method: "GET",
     Proxy: "http://user:pass@myproxy:myproxyport",
     Uri: "http://www.google.com",

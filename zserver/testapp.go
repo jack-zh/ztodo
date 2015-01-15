@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/jack-zh/ztodo/zRequests"
+	"github.com/jack-zh/ztodo/zrequests"
 )
 
 func main() {
@@ -13,7 +13,7 @@ func main() {
 	}
 
 	item := Item{UserName: "jack", Password: "123456"}
-	res, err := zRequests.Request{
+	res, err := zrequests.Request{
 		Method:      "POST",
 		Uri:         "http://localhost:9999/login",
 		QueryString: item,
