@@ -6,6 +6,7 @@ import (
 )
 
 type Item struct {
+	Token    string
 	UserName string
 	Password string
 }
