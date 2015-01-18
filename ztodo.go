@@ -20,8 +20,8 @@ var cloud_work_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "work
 var cloud_backup_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "backuptasks.json")
 var simple_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "simpletasks")
 
-const version = "0.4.5"
-const build_time = "2015-01-13"
+const version = "0.4.6"
+const build_time = "2015-01-19"
 const usage = `Incorrect Usage.
 
 NAME:
