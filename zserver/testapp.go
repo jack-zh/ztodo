@@ -27,7 +27,7 @@ func getuser(usertokenstr string) string {
 	return "getuser--> usertokenstr" + usertokenstr
 }
 
-func pullall() {
+func pullall(usertokenstr string) {
 	// item := Item{UserName: "jack", Password: "123456"}
 	res, err := zrequests.Request{
 		Method: "GET",
@@ -41,7 +41,7 @@ func pullall() {
 	}
 }
 
-func pullone() {
+func pullone(usertokenstr string, tasktokenstr string) {
 	// item := Item{UserName: "jack", Password: "123456"}
 	res, err := zrequests.Request{
 		Method: "GET",
@@ -59,7 +59,7 @@ func pushall(usertokenstr string) string {
 	return "pushall==> usertokenstr:" + usertokenstr
 }
 
-func pushone(usertokenstr string) string {
+func pushone(usertokenstr string, tasktokenstr string) string {
 	return "pushone==> usertokenstr:" + usertokenstr
 }
 
