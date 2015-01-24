@@ -16,10 +16,32 @@ type BackCode struct {
 }
 
 func signup(username string, password string) BackCode {
+	item := Item{UserName: username, Password: password}
+	res, err := zrequests.Request{
+		Method: "GET",
+		Uri:    "http://localhost:9999/signup",
+		QueryString: item,
+	}.Do()
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(res.Body.ToString())
+	}
 	return new BackCode{"success", 1}
 }
 
 func login(username string, password string) BackCode {
+	item := Item{UserName: username, Password: password}
+	res, err := zrequests.Request{
+		Method: "GET",
+		Uri:    "http://localhost:9999/login",
+		QueryString: item,
+	}.Do()
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(res.Body.ToString())
+	}
 	return new BackCode{"success", 1}
 }
 
