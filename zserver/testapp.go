@@ -38,7 +38,7 @@ func login(username string, password string) BackCode {
 		QueryString: item,
 	}.Do()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err) 
 	} else {
 		fmt.Println(res.Body.ToString())
 	}
@@ -67,7 +67,7 @@ func pullone(usertokenstr string, tasktokenstr string) {
 	// item := Item{UserName: "jack", Password: "123456"}
 	res, err := zrequests.Request{
 		Method: "GET",
-		Uri:    "http://localhost:9999/pullall/aaabbbcccddd",
+		Uri:    "http://localhost:9999/pullone/aaabbbcccddd/",
 		// QueryString: item,
 	}.Do()
 	if err != nil {
