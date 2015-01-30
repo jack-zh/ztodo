@@ -5,11 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/jack-zh/ztodo/utils"
 	"io"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/jack-zh/ztodo/utils"
+	"github.com/jack-zh/ztodo/zterminal/color"
 )
 
 type CloudTask struct {
@@ -290,6 +292,8 @@ func (l *CloudTasks) CloudTasksPrintVerbose(i int) {
 
 func printTask(task CloudTask, i int) {
 	fmt.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
+	c := color.New(color.FgCyan).Add(color.Underline)
+	c.Printf("Prints cyan text with an underline.")
 }
 
 func printTaskVerbose(task CloudTask, i int) {

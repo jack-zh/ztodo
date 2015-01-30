@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/jack-zh/ztodo/zterminal/gopass"
-	"github.com/jack-zh/ztodo/zterminal/rgbterm"
 )
 
 func RemoveSlice(slice []interface{}, start, end int) []interface{} {
@@ -33,8 +32,6 @@ func CredentialsRetype() (string, string, string) {
 	word := "=)"
 	var r, g, b uint8
 	r, g, b = 43, 43, 43
-	coloredWord := rgbterm.BgString(word, r, g, b)
-	fmt.Println("Oh!", coloredWord, "hello!")
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Print("Enter Username: ")
