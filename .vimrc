@@ -1,6 +1,7 @@
 " jack.zh vim config
 
 set nu
+syntax on
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
