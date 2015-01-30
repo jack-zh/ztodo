@@ -29,9 +29,6 @@ func Credentials() (string, string) {
 }
 
 func CredentialsRetype() (string, string, string) {
-	word := "=)"
-	var r, g, b uint8
-	r, g, b = 43, 43, 43
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Print("Enter Username: ")

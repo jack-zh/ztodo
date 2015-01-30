@@ -291,9 +291,15 @@ func (l *CloudTasks) CloudTasksPrintVerbose(i int) {
 }
 
 func printTask(task CloudTask, i int) {
-	fmt.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
-	c := color.New(color.FgCyan).Add(color.Underline)
-	c.Printf("Prints cyan text with an underline.")
+	c_printf := color.New(color.BgWhite)
+	if task.Status == "Doing" {
+		c_printf = color.New(color.FgRed, color.Bold).Add(color.Underline)
+	} else if task.Status == "Future" {
+		c_printf = color.New(color.FgGreen, color.Bold)
+	} else if task.Status == "Done" {
+		c_printf = color.New(color.FgMagenta, color.Bold)
+	}
+	c_printf.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
 }
 
 func printTaskVerbose(task CloudTask, i int) {
