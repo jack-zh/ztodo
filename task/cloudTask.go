@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"runtime"
 	"strconv"
 	"time"
 
@@ -299,7 +300,11 @@ func printTask(task CloudTask, i int) {
 	} else if task.Status == "Done" {
 		c_printf = color.New(color.FgBlue, color.Bold)
 	}
-	c_printf.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
+	if runtime.GOOS == "windows" {
+		fmt.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
+	} else {
+		c_printf.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
+	}
 }
 
 func printTaskVerbose(task CloudTask, i int) {
