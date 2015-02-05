@@ -55,7 +55,7 @@ GLOBAL OPTIONS:
 
 func printSimpleTask(t string, i string) {
 	if strings.HasPrefix(t, "0") {
-		t = strings.Replace(t, "0", "[Future]", 1)
+		t = strings.Replace(t, "0", "[New]", 1)
 	}
 	if strings.HasPrefix(t, "1") {
 		t = strings.Replace(t, "1", "[Doing ]", 1)

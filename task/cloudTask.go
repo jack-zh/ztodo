@@ -93,7 +93,7 @@ func (l *CloudTasks) CloudUpdateTaskStatus(n int, upstr string) error {
 		l.WorkTasks[n-1].Status = upstr
 		time_str := time.Now().Format("2006-01-02 15:04:05")
 		l.WorkTasks[n-1].Updatetime = time_str
-		if upstr == "Future" {
+		if upstr == "New" {
 			l.WorkTasks[n-1].Doingtime = "2006-01-02 15:04:05"
 			l.WorkTasks[n-1].Donetime = "2006-01-02 15:04:05"
 		} else if upstr == "Done" {
@@ -195,7 +195,7 @@ func (l *CloudTasks) CloudAddTask(s string) error {
 	create_time_str := time.Now().Format("2006-01-02 15:04:05")
 	doing_time_str := "2006-01-02 15:04:05"
 	done_time_str := "2006-01-02 15:04:05"
-	status := "Future"
+	status := "New"
 	task_str := s
 	token, _ := utils.GenUUID()
 	task := CloudTask{
@@ -239,7 +239,7 @@ func (l *CloudTasks) CloudDoingTask(n int) error {
 }
 
 func (l *CloudTasks) CloudUndoTask(n int) error {
-	return l.CloudUpdateTaskStatus(n, "Future")
+	return l.CloudUpdateTaskStatus(n, "New")
 }
 
 func (l *CloudTasks) CloudCleanTask() error {
@@ -295,15 +295,15 @@ func printTask(task CloudTask, i int) {
 	c_printf := color.New(color.BgWhite)
 	if task.Status == "Doing" {
 		c_printf = color.New(color.FgRed, color.Bold).Add(color.Underline)
-	} else if task.Status == "Future" {
+	} else if task.Status == "New" {
 		c_printf = color.New(color.FgGreen, color.Bold)
 	} else if task.Status == "Done" {
 		c_printf = color.New(color.FgBlue, color.Bold)
 	}
 	if runtime.GOOS == "windows" {
-		fmt.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
+		fmt.Printf("%-3s: [%-5s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
 	} else {
-		c_printf.Printf("%-3s: [%-6s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
+		c_printf.Printf("%-3s: [%-5s] [%s] %s\n", strconv.Itoa(i), task.Status, task.Updatetime, task.Task)
 	}
 }
 
