@@ -2,6 +2,8 @@
 
 A simple command-line todo list written in Go.
 
+![](doc/ztodo.gif)
+
 ## Version
 
 0.4.6
