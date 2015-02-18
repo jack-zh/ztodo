@@ -292,6 +292,9 @@ func main() {
 	case a == "user" && n == 1:
 		err = cloudlist.ShowUserConfig()
 
+	case a == "user" && n == 1:
+		err = cloudlist.ShowUserConfig()
+
 	default:
 		fmt.Fprint(os.Stdout, usage)
 		err = nil
