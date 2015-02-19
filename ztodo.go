@@ -292,7 +292,7 @@ func main() {
 	case a == "user" && n == 1:
 		err = cloudlist.ShowUserConfig()
 
-	case a == "user" && n == 1:
+	case a == "staying-up" && n == 1:
 		err = cloudlist.ShowUserConfig()
 
 	default:
