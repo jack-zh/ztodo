@@ -293,7 +293,7 @@ func main() {
 		err = cloudlist.ShowUserConfig()
 
 	case a == "staying-up" && n == 1:
-		err = cloudlist.ShowUserConfig()
+		fmt.Println("Happy New Year.")
 
 	default:
 		fmt.Fprint(os.Stdout, usage)
