@@ -296,6 +296,7 @@ func main() {
 		fmt.Println("Happy New Year.")
 
 	default:
+		fmt.Println("Happy New Year.")
 		fmt.Fprint(os.Stdout, usage)
 		err = nil
 		os.Exit(1)
