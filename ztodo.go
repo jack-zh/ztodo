@@ -299,7 +299,7 @@ func main() {
 		fmt.Println("Happy New Year.")
 		fmt.Fprint(os.Stdout, usage)
 		err = nil
-		os.Exit(1)
+		os.Exit(0)
 	}
 	if err != nil {
 		fmt.Println(err)
