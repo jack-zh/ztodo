@@ -80,6 +80,11 @@ func dirCheck() error {
 	}
 }
 
+func printUsgaes() {
+	fmt.Println("Happy New Year.")
+	fmt.Fprint(os.Stdout, usage)
+}
+
 func main() {
 	errdir := dirCheck()
 	if errdir != nil {
@@ -98,14 +103,11 @@ func main() {
 	a = strings.ToLower(a)
 	if a == "ls" {
 		a = "list"
-	}
-	if a == "remove" {
+	} else if a == "remove" {
 		a = "rm"
-	}
-	if a == "simplels" {
+	} else if a == "simplels" {
 		a = "simplelist"
-	}
-	if a == "simpleremove" {
+	} else if a == "simpleremove" {
 		a = "simplerm"
 	}
 
@@ -128,7 +130,7 @@ func main() {
 	case a == "simplelist" && n == 2:
 		i, err2 := strconv.Atoi(flag.Arg(1))
 		if err2 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		var task string
@@ -139,7 +141,7 @@ func main() {
 	case a == "simplerm" && n == 2:
 		i, err2 := strconv.Atoi(flag.Arg(1))
 		if err2 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		err = simplelist.SimpleRemoveTask(i - 1)
@@ -154,7 +156,7 @@ func main() {
 	case a == "simpledoing" && n == 2:
 		i, err3 := strconv.Atoi(flag.Args()[1])
 		if err3 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		err = simplelist.SimpleDoingTask(i - 1)
@@ -162,14 +164,14 @@ func main() {
 	case a == "simpledone" && n == 2:
 		i, err4 := strconv.Atoi(flag.Args()[1])
 		if err4 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		err = simplelist.SimpleDoneTask(i - 1)
 	case a == "simpleundo" && n == 2:
 		i, err5 := strconv.Atoi(flag.Args()[1])
 		if err5 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		err = simplelist.SimpleUndoTask(i - 1)
@@ -193,7 +195,7 @@ func main() {
 		} else {
 			i, err2 := strconv.Atoi(flag.Arg(1))
 			if err2 != nil {
-				fmt.Fprint(os.Stdout, usage)
+				printUsgaes()
 				break
 			}
 			err = cloudlist.CloudGetAllWorkTaskByFile()
@@ -205,7 +207,7 @@ func main() {
 		if flag.Arg(2) == "verbose" {
 			i, err2 := strconv.Atoi(flag.Arg(1))
 			if err2 != nil {
-				fmt.Fprint(os.Stdout, usage)
+				printUsgaes()
 				break
 			}
 			err = cloudlist.CloudGetAllWorkTaskByFile()
@@ -213,13 +215,13 @@ func main() {
 				cloudlist.CloudTasksPrintVerbose(i)
 			}
 		} else {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 		}
 
 	case a == "rm" && n == 2:
 		i, err2 := strconv.Atoi(flag.Arg(1))
 		if err2 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		err = cloudlist.CloudRemoveTask(i)
@@ -233,7 +235,7 @@ func main() {
 	case a == "doing" && n == 2:
 		i, err3 := strconv.Atoi(flag.Args()[1])
 		if err3 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		err = cloudlist.CloudDoingTask(i)
@@ -241,14 +243,14 @@ func main() {
 	case a == "done" && n == 2:
 		i, err4 := strconv.Atoi(flag.Args()[1])
 		if err4 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		err = cloudlist.CloudDoneTask(i)
 	case a == "undo" && n == 2:
 		i, err5 := strconv.Atoi(flag.Args()[1])
 		if err5 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		err = cloudlist.CloudUndoTask(i)
@@ -262,7 +264,7 @@ func main() {
 	case a == "pull" && n == 2:
 		i, err6 := strconv.Atoi(flag.Args()[1])
 		if err6 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		_, _ = cloudlist.CloudPullOne(i)
@@ -271,7 +273,7 @@ func main() {
 	case a == "push" && n == 2:
 		i, err7 := strconv.Atoi(flag.Args()[1])
 		if err7 != nil {
-			fmt.Fprint(os.Stdout, usage)
+			printUsgaes()
 			break
 		}
 		_ = cloudlist.CloudPushOne(i)
@@ -296,8 +298,7 @@ func main() {
 		fmt.Println("Happy New Year.")
 
 	default:
-		fmt.Println("Happy New Year.")
-		fmt.Fprint(os.Stdout, usage)
+		printUsgaes()
 		err = nil
 		os.Exit(0)
 	}
