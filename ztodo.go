@@ -81,7 +81,7 @@ func dirCheck() error {
 }
 
 func printUsgaes() {
-	fmt.Println("Happy New Year.")
+	fmt.Println("Happy New Year.\n")
 	fmt.Fprint(os.Stdout, usage)
 }
 
@@ -295,7 +295,7 @@ func main() {
 		err = cloudlist.ShowUserConfig()
 
 	case a == "staying-up" && n == 1:
-		fmt.Println("Happy New Year.")
+		fmt.Print("Happy New Year.")
 
 	default:
 		printUsgaes()
