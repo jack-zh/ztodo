@@ -20,8 +20,8 @@ var cloud_work_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "work
 var cloud_backup_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "backuptasks.json")
 var simple_tasks_filename = filepath.Join(os.Getenv("HOME"), ".ztodo", "simpletasks")
 
-const version = "0.4.7"
-const build_time = "2015-02-25"
+const version = "0.4.8"
+const build_time = "2015-03-23"
 const usage = `Incorrect Usage.
 
 NAME:
@@ -81,7 +81,7 @@ func dirCheck() error {
 }
 
 func printUsgaes() {
-	fmt.Println("Happy New Year.\n")
+	fmt.Println("Have a nice day.\n")
 	fmt.Fprint(os.Stdout, usage)
 }
 
