@@ -33,7 +33,6 @@ A simple command-line todo list written in Go.
 ## Next version 0.5:
 
 + Base server
-+ Base client pull push
 
 ## License:
 
